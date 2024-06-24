@@ -87,7 +87,6 @@ INSTALLED_APPS += [
 
 SITE_ID = 1  # new
 CSRF_TRUSTED_ORIGINS = ["https://onlydjango.com", "https://www.onlydjango.com"]
-# CSRF_FAILURE_VIEW = "lessonplanner.views.csrf_failure"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -223,4 +222,4 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-SITE_VERSION = "3.0.1"
+SITE_VERSION = "0.0.1"
