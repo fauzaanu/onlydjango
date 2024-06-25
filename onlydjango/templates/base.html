@@ -16,12 +16,11 @@
   <meta name="description" content="">
   <meta name="keywords" content="">
   <meta name="author" content="">
-  <meta property="og:title" content="">
-  <meta property="og:image" content="' %}">
-  <meta property="og:url" content="https://lessonfuse.com">
-  <meta property="og:site_name" content="Lessonfuse">
+  <meta property="og:title" content="{{ SITE_TITLE }}">
+  <meta property="og:image" content="{{ SITE_OG }}">
+  <meta property="og:url" content="{{ SITE_URL }}">
+  <meta property="og:site_name" content="{{ SITE_NAME }}">
   <meta property="og:type" content="website">
-  <link rel="shortcut icon" type="image/png" href="" />
 
   <!--HTMX-->
   <script src="https://unpkg.com/htmx.org@1.9.10"></script>
@@ -78,7 +77,6 @@
       });
     }
   </script>
-
 {% endif %}
 </html>
 
