@@ -20,8 +20,11 @@ CSRF_COOKIE_SECURE = True
 
 # for django all auth
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
+
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+
+# SQLITE
 # DATABASES = {
 #     "default": {
 #         "ENGINE": "django.db.backends.sqlite3",
@@ -29,6 +32,7 @@ ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
 #     },
 # }
 
+# POSTGRES
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
@@ -43,19 +47,21 @@ DATABASES = {
 # Cache settings
 # https://docs.djangoproject.com/en/5.0/topics/cache/#setting-up-the-cache
 
-REDIS_URL = "redis://redis:6379"
+REDIS_URL = os.environ["REDIS_PRIVATE_URL"]
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
         "LOCATION": [
             REDIS_URL,  # primary
         ],
-        "KEY_PREFIX": "lessonfuse",
+        "KEY_PREFIX": SITE_NAME,
     }
 }
 
+HUEY = RedisHuey("huey", url=REDIS_URL)
+
 # Email to receive error logs
-ADMINS = [("Fauzaan", "hello@fauzaanu.com")]
+ADMINS = [("Admin", os.environ["ADMIN_EMAIL"])]
 
 # Email settings
 # https://docs.djangoproject.com/en/3.1/topics/email/
@@ -119,9 +125,5 @@ LOGGING = {
         },
     },
 }
-
-REDIS_HOST = os.environ.get("REDIS_HOST", "localhost")
-REDIS_PORT = os.environ.get("REDIS_PORT", 6379)
-HUEY = RedisHuey("huey", host=REDIS_HOST, port=REDIS_PORT)
 
 

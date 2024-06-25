@@ -14,8 +14,7 @@ SECRET_KEY = "1234"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": path.join(BASE_DIR, "databases", "db.sqlite3"), # this is like this due to the
-        # specific project having old data
+        "NAME": path.join(BASE_DIR, "databases", "db.sqlite3"),
     },
 }
 
@@ -38,11 +37,6 @@ TELEGRAM_CHAT_ID = os.environ["TELEGRAM_CHAT_ID"]
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
-    # When a message is given to the logger, the log level of the message is compared to the log level
-    # of the logger. If
-    # the log level of the message meets or exceeds the log level of the logger itself, the message will undergo
-    # further processing. If it doesn’t, the message will be ignored. Once a logger has determined that a message
-    # needs to be processed, it is passed to a Handler.
     "root": {
         "level": "INFO",
         "handlers": ["console"],
@@ -67,4 +61,3 @@ LOGGING = {
     },
 
 }
-
