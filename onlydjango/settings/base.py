@@ -17,29 +17,8 @@ load_dotenv(override=True)
 PROJECT_DIR = Path(__file__).resolve().parent.parent
 BASE_DIR = PROJECT_DIR.parent
 WSGI_APPLICATION = "onlydjango.wsgi.application"
-env = os.getenv
-if env("DJANGO_DEBUG_STATUS") == "True":
-    DEBUG = True
-else:
-    DEBUG = False
-
-if DEBUG:
-    ALLOWED_HOSTS = ["*"]
-
-elif DEBUG is False:
-    ALLOWED_HOSTS = [
-        "onlydjango.com"
-    ]
-
-# Application definition
-WAGTAIL_SITE_NAME = "onlydjango"
-WAGTAILADMIN_BASE_URL = "https://onlydjango.com"
-SITE_VERSION = "3.0.2"
-SITE_NAME = WAGTAIL_SITE_NAME
 
 FIRST_PARTY_APPS = [
-    "generation",
-    "menu"
 ]
 
 ALL_AUTH_APPS = [
@@ -102,6 +81,8 @@ MIDDLEWARE = [
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     # all-auth
     "allauth.account.middleware.AccountMiddleware",
+    # br
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
 
 ]
 
@@ -134,29 +115,6 @@ TEMPLATES = [
     },
 ]
 
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-if env("FORCE_SQLITE") == "True":
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
-    }
-
-else:
-    # Database for postgresql
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-            "OPTIONS": {
-                "timeout": 20,
-            },
-        },
-    }
-
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -187,8 +145,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-MEDIA_URL = "/user_templates/"
-MEDIA_ROOT = BASE_DIR / "templating_system"
+MEDIA_URL = "/mediafiles/"
+MEDIA_ROOT = BASE_DIR / MEDIA_URL
+
 STATICFILES_DIRS = [
     os.path.join(PROJECT_DIR, "static"),
 ]
@@ -198,7 +157,6 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
 
 # All-auth settings
 ACCOUNT_AUTHENTICATION_METHOD = "email"
@@ -223,3 +181,4 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 SITE_VERSION = "0.0.1"
+SITE_NAME = os.getenv("SITE_NAME")

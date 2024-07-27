@@ -31,7 +31,6 @@ CACHES = {
 # Tasks backend
 HUEY = RedisHuey(url=REDIS_URL)
 
-
 TELEGRAM_BOT_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 TELEGRAM_CHAT_ID = os.environ["TELEGRAM_CHAT_ID"]
 LOGGING = {
