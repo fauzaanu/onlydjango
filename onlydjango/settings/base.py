@@ -38,8 +38,6 @@ ALL_AUTH_APPS = [
 THIRD_PARTY_APPS = [
     "django_browser_reload",
     "huey.contrib.djhuey",
-    "cloudinary_storage",
-    "cloudinary",
 ]
 
 DJANGO_APPS = [
@@ -75,6 +73,7 @@ MIDDLEWARE = [
 
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.auth.middleware.LoginRequiredMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
