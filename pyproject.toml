@@ -7,7 +7,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11,<3.13"
-django = "^5.0.6"
+django = "^5.1"
 python-dotenv = "^1.0.1"
 django-allauth = {extras = ["socialaccount"], version = "^0.63.3"}
 django-debug-toolbar = "^4.4.2"
