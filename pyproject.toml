@@ -22,7 +22,7 @@ django-crispy-forms = "^2.2"
 crispy-tailwind = "^1.0.3"
 pillow = "^10.4.0"
 django-custom-error-views = "^0.2.5"
-faker = "^26.0.0"
+faker = "^26.3.0"
 aider-chat = "^0.45.1"
 
 
