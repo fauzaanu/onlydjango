@@ -24,6 +24,7 @@ pillow = "^10.4.0"
 django-custom-error-views = "^0.2.5"
 faker = "^26.3.0"
 aider-chat = "^0.45.1"
+django-browser-reload = "^1.13.0"
 
 
 [build-system]
