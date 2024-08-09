@@ -1,23 +1,28 @@
-# Only Django - Still a WIP
+# Only Django - Boilerplate Template
 
-The boilerplate template for building applications fast without going outside of django for the most part.
+This boilerplate template is designed to help you build Django applications quickly, leveraging Django’s features and integrating modern tools for efficient development.
 
 ## Frontend
 
-We would be using django templates. For dynamic UI updates we would be using htmx and alpinejs would be used for most client side UI updates. We would be using tailwindcss for styling and any extra libraries that is relevant can be used such as fontawesome.
+- **Templates:** We use Django templates for rendering views.
+- **Dynamic UI Updates:** Utilize [HTMX](https://htmx.org/) for dynamic updates.
+- **Client-Side Interactivity:** Implement [Alpine.js](https://alpinejs.dev/) for handling client-side UI interactions.
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/) is used for styling, with optional integration of additional libraries like [Font Awesome](https://fontawesome.com/) for icons.
 
 ## Backend
 
-The general idea of this boilerplate is that `models.py` would contain most business logic within each model. For example if a template requires to check the state of a certain database object, there will be a model method for that. If a model method alone cannot handle this, only then would we bring this logic into views.py and pass in as additional context. For the most part, the only context that gets passed will be the database object itself
+- **Business Logic:** Most business logic is encapsulated within `models.py`. For instance, if a template needs to check the state of a database object, the logic is typically managed via model methods.
+- **Context Handling:** If a model method alone cannot handle the logic, it will be moved to `views.py`.
 
 ## AI for Coding
 
-This template also includes aider a much better alternative to cursor IMO.
+- **Code Assistance:** This template includes aider, a better alternative to Cursor for enhanced coding support that gives you privacy + doesnt force you to break out of your already productive IDE
 
 ## Background Tasks
 
-Background tasks are by default processed through huey a very simple task que. However Celery based launch configs are present in the railway json files.
+- **Task Processing:** By default, background tasks are managed using [Huey](https://huey.readthedocs.io/en/latest/), a simple task queue.
+- **Celery Support:** Configuration files for Celery are included for more complex task handling, available in the Railway JSON files.
 
-## 1-click deploy to Railway
+## 1-Click Deployment
 
-This template is also optimized so that it can be deployed instantly to railway without any additional configurations
+- **Railway Integration:** This template is optimized for one-click deployment on [Railway](https://railway.app/) with minimal configuration required.
