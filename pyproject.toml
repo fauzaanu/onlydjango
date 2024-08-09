@@ -12,7 +12,7 @@ python-dotenv = "^1.0.1"
 django-allauth = {extras = ["socialaccount"], version = "^64.0.0"}
 django-debug-toolbar = "^4.4.2"
 huey = "^2.5.1"
-redis = "^5.0.6"
+redis = "^5.0.8"
 psycopg2 = "^2.9.9"
 whitenoise = "^6.7.0"
 django-browser-reload = "^1.13.0"
