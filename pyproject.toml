@@ -24,7 +24,7 @@ pillow = "^10.4.0"
 django-custom-error-views = "^0.2.5"
 faker = "^26.3.0"
 aider-chat = "^0.48.1"
-
+django-storages = {extras = ["s3"], version = "^1.14.4"}
 
 [build-system]
 requires = ["poetry-core"]
