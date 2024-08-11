@@ -36,6 +36,12 @@ class ODCreateView(CreateView):
 class ODUpdateView(UpdateView):
     template_name = "generic/update.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["helper"] = ODFormHelper(form=self.get_form())
+
+        return context
+
 
 class ODDeleteView(DeleteView):
     template_name = "generic/delete.html"
