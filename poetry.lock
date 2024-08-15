@@ -1040,13 +1040,13 @@ tree-sitter-languages = ">=1.8.0"
 
 [[package]]
 name = "gunicorn"
-version = "22.0.0"
+version = "23.0.0"
 description = "WSGI HTTP Server for UNIX"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "gunicorn-22.0.0-py3-none-any.whl", hash = "sha256:350679f91b24062c86e386e198a15438d53a7a8207235a78ba1b53df4c4378d9"},
-    {file = "gunicorn-22.0.0.tar.gz", hash = "sha256:4a0b436239ff76fb33f11c07a16482c521a7e09c1ce3cc293c2330afe01bec63"},
+    {file = "gunicorn-23.0.0-py3-none-any.whl", hash = "sha256:ec400d38950de4dfd418cff8328b2c8faed0edb0d517d3394e457c317908ca4d"},
+    {file = "gunicorn-23.0.0.tar.gz", hash = "sha256:f014447a0101dc57e294f6c18ca6b40227a4c90e9bdb586042628030cba004ec"},
 ]
 
 [package.dependencies]
@@ -3156,4 +3156,4 @@ test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", 
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11,<3.13"
-content-hash = "4924a4c5a8f07da29a3f1fb1e437ebd026500fad760f2da093871bb8379de1ec"
+content-hash = "b18840bf88e6743403ba22024211b5193b449be009b90f604c7c2423877129ca"
