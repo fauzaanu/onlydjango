@@ -13,7 +13,7 @@ django-allauth = {extras = ["socialaccount"], version = "^64.0.0"}
 django-debug-toolbar = "^4.4.2"
 huey = "^2.5.1"
 redis = "^5.0.8"
-django-browser-reload = "^1.13.0"
+django-browser-reload = "^1.15.0"
 pytz = "^2024.1"
 gunicorn = "^23.0.0"
 django-crispy-forms = "^2.2"
