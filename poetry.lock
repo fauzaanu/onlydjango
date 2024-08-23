@@ -754,6 +754,20 @@ asgiref = ">=3.6"
 django = ">=3.2"
 
 [[package]]
+name = "django-cotton"
+version = "0.9.30"
+description = "Bringing component based design to Django templates."
+optional = false
+python-versions = "<4,>=3.8"
+files = [
+    {file = "django_cotton-0.9.30-py3-none-any.whl", hash = "sha256:5663457144597957675a660e81bcf9356a21ead23f5633905eb5d2a21cec037e"},
+    {file = "django_cotton-0.9.30.tar.gz", hash = "sha256:8ea5ffdb7ad9b572dbc632ef23f8e25de739bc5bc3fca3c200458725467ebb37"},
+]
+
+[package.dependencies]
+beautifulsoup4 = ">=4.12.2,<4.13.0"
+
+[[package]]
 name = "django-crispy-forms"
 version = "2.3"
 description = "Best way to have Django DRY forms"
@@ -3156,4 +3170,4 @@ test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", 
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11,<3.13"
-content-hash = "b18840bf88e6743403ba22024211b5193b449be009b90f604c7c2423877129ca"
+content-hash = "822091f8fe80f55992575d208371630a90c2373f49691f5ed7c7e770f0e7e9b6"

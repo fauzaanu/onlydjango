@@ -3,34 +3,21 @@ from huey import RedisHuey
 
 DEBUG = False
 ALLOWED_HOSTS = [
-    "localhost",
-    "beta.lessonfuse.com",
-    "lessonfuse.com",
-    "staging.lessonfuse.com"
+    "onlydjango.com",
 ]
 SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]  # secret
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://lessonfuse.com",
-    "https://beta.lessonfuse.com",
+    "https://onlydjango.com",
+    "https://beta.onlydjango.com",
+    "https://staging.onlydjango.com",
 ]
-CSRF_COOKIE_DOMAIN = ".lessonfuse.com"
-SESSION_COOKIE_DOMAIN = ".lessonfuse.com"
+CSRF_COOKIE_DOMAIN = ".onlydjango.com"
+SESSION_COOKIE_DOMAIN = ".onlydjango.com"
 CSRF_COOKIE_SECURE = True
 
 # for django all auth
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
-
-# Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
-# SQLITE
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": os.path.join(BASE_DIR, "databases", "db.sqlite3"),
-#     },
-# }
 
 # POSTGRES
 DATABASES = {
