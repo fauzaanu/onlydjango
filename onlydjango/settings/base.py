@@ -27,6 +27,7 @@ ALL_AUTH_APPS = [
 THIRD_PARTY_APPS = [
     "django_browser_reload",
     "huey.contrib.djhuey",
+    'django_cotton',
 ]
 
 DJANGO_APPS = [
@@ -91,6 +92,17 @@ TEMPLATES = [
         ],
         "APP_DIRS": True,
         "OPTIONS": {
+            "loaders": [(
+                "django.template.loaders.cached.Loader",
+                [
+                    "django_cotton.cotton_loader.Loader",
+                    "django.template.loaders.filesystem.Loader",
+                    "django.template.loaders.app_directories.Loader",
+                ],
+            )],
+            "builtins": [
+                "django_cotton.templatetags.cotton"
+            ],
             "context_processors": [
                 "django.template.context_processors.debug",
                 "django.template.context_processors.request",
