@@ -28,7 +28,7 @@ STORAGES = {
         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
         "OPTIONS": {
             "location": path.join(BASE_DIR, "staticfiles"),
-            "base_url": "/staticfiles/",
+            "base_url": "/static/",
         },
     },
     "media": {
