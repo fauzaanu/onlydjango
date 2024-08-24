@@ -19,7 +19,10 @@ CSRF_COOKIE_SECURE = True
 # for django all auth
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
 
+# Database
+# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 # POSTGRES
+# noinspection DuplicatedCode
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
@@ -28,6 +31,13 @@ DATABASES = {
         "PASSWORD": os.environ["PGPASSWORD"],
         "HOST": os.environ["PGHOST"],
         "PORT": os.environ["PGPORT"],
+        "OPTIONS": {
+            "pool": {
+                "min_size": 2,
+                "max_size": 4,
+                "timeout": 10,
+            }
+        },
     }
 }
 
