@@ -28,6 +28,7 @@ THIRD_PARTY_APPS = [
     "django_browser_reload",
     "huey.contrib.djhuey",
     'django_cotton',
+     "debug_toolbar",
 ]
 
 DJANGO_APPS = [
@@ -48,11 +49,7 @@ INSTALLED_APPS = (DJANGO_APPS + ALL_AUTH_APPS + THIRD_PARTY_APPS +
 CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
 CRISPY_TEMPLATE_PACK = "tailwind"
 
-INSTALLED_APPS += [
-    "debug_toolbar",
-]
-
-SITE_ID = 1  # new
+SITE_ID = 1
 CSRF_TRUSTED_ORIGINS = ["https://onlydjango.com", "https://www.onlydjango.com"]
 
 MIDDLEWARE = [
