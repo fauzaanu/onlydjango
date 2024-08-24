@@ -2,15 +2,15 @@
 
 > Note: Both the readme and the code in the repo are a work in progress and is incomplete!
 
-The idea of `onlydjango` is to 
-- Use onlydjango (obviousely)
-- Make deploying Django really easy
-- Make it easy to implement a task que in Django
-- Utilize Generic views along with Django Forms, while also using crispy forms
-- Make it easy to style Django Templates with tailwindcss being setup initially
-- Overall, this boilerplate is about additional productivity and speed for an already productive framework.
+The idea of `onlydjango` is to use as much of django until you cant.
 
-Overall, This boilerplate is optimized for a speedy development process based on working with Django over multiple projects in the past. Nothing that is included in this boilerplate is new. This boilerplate is also very opinionated in the way you should be building django applications. Trying to fight these opinions will not give you the best productivity this boilerplate offers.
+onlydjango aims to 
+- Make deploying Django easy
+- Already setup task ques
+- Utilize Generic views along with Django Forms, while also using crispy forms
+- have tailwindcss pre-setup
+
+This boilerplate is constantly being updated as I start new django projects and try to use this as the starting point. Hopefully it will reach a stage where I dont have to come back to edit this repo while setting things up.
 
 ## Generic Views
 
@@ -28,9 +28,20 @@ The easiest way to deploy django projects really fast is railway due to the almo
 
 Todo: Add a dockerfile so that deployments can be possible in other platforms as well
 
+## Databases
+
+While I am a fan of sqlite and using sqlite for development, sqlite does not fit the purpose of this repo as we are trying to go for dev speed and deploying sqlite on a containerized way is not great for that.
+
+There are two databases you should run:
+redis and postgresql with their default settings and default ports exposed from the official docker containers.
+
+Todo: add the commands here
+
 ## Authentication
 
-The package `django-allauth` is used for all authentication. For a really quick setup telegram is implemented. Using ngork you can have a working dev environment for telegram authentication. It can be argued that google auth being default might be easier, but I disagree, as you can have telegram authentication working with a couple of chats with @botfather and running ngrok.
+The package `django-allauth` is used for all authentication. For a really quick setup telegram is implemented. Using ngrok you can have a working dev environment for telegram authentication. It can be argued that google auth being default might be easier, but I disagree, as you can have telegram authentication working with a couple of chats with @botfather and running ngrok.
+
+Another package we will include will be an otp based authentication package where we will add fake authentication of a preset OTP code. This can make it very easy to get a login system working right away, however allauth is also very relevant and will not be removed.
 
 ## Logging 
 
