@@ -87,7 +87,6 @@ TEMPLATES = [
         "DIRS": [
             os.path.join(PROJECT_DIR, "templates"),
         ],
-        "APP_DIRS": True,
         "OPTIONS": {
             "loaders": [(
                 "django.template.loaders.cached.Loader",
