@@ -12,7 +12,7 @@ from django.views.generic import (
     DeleteView,
 )
 
-from helpers.formclass import ODFormHelper
+from onlydjango.helpers.formclass import ODFormHelper
 
 
 class ODListView(ListView):

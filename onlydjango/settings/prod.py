@@ -1,3 +1,5 @@
+import os
+
 from .base import *
 from huey import RedisHuey
 
@@ -23,7 +25,7 @@ AWS_S3_ENDPOINT_URL = os.getenv("AWS_S3_ENDPOINT_URL")
 AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
 AWS_S3_SIGNATURE_VERSION = "s3v4"
-AWS_S3_CUSTOM_DOMAIN = "cdn.onlydjango.com"
+AWS_S3_CUSTOM_DOMAIN = os.getenv("AWS_S3_CUSTOM_DOMAIN")
 STORAGES = {
     "default": {
         "BACKEND": "storages.backends.s3.S3Storage",
