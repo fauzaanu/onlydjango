@@ -8,6 +8,7 @@ BASE_DIR = PROJECT_DIR.parent
 WSGI_APPLICATION = "onlydjango.wsgi.application"
 
 FIRST_PARTY_APPS = [
+    "sampleapp",
 ]
 
 ALL_AUTH_APPS = [
@@ -28,7 +29,7 @@ THIRD_PARTY_APPS = [
     "django_browser_reload",
     "huey.contrib.djhuey",
     'django_cotton',
-     "debug_toolbar",
+    "debug_toolbar",
 ]
 
 DJANGO_APPS = [
@@ -58,7 +59,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.auth.middleware.LoginRequiredMiddleware",
+    # "django.contrib.auth.middleware.LoginRequiredMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
@@ -87,18 +88,8 @@ TEMPLATES = [
         "DIRS": [
             os.path.join(PROJECT_DIR, "templates"),
         ],
+        "APP_DIRS": True,
         "OPTIONS": {
-            "loaders": [(
-                "django.template.loaders.cached.Loader",
-                [
-                    "django_cotton.cotton_loader.Loader",
-                    "django.template.loaders.filesystem.Loader",
-                    "django.template.loaders.app_directories.Loader",
-                ],
-            )],
-            "builtins": [
-                "django_cotton.templatetags.cotton"
-            ],
             "context_processors": [
                 "django.template.context_processors.debug",
                 "django.template.context_processors.request",
