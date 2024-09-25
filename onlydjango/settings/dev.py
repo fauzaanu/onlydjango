@@ -13,15 +13,15 @@ SECRET_KEY = "1234"
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 # Use any S3 Compatible storage backend for static and media files
-AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
-AWS_S3_ENDPOINT_URL = os.getenv("AWS_S3_ENDPOINT_URL")
-AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
-AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
-AWS_S3_SIGNATURE_VERSION = "s3v4"
-AWS_S3_CUSTOM_DOMAIN = "cdn.onlydjango.com"
+# AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
+# AWS_S3_ENDPOINT_URL = os.getenv("AWS_S3_ENDPOINT_URL")
+# AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
+# AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
+# AWS_S3_SIGNATURE_VERSION = "s3v4"
+# AWS_S3_CUSTOM_DOMAIN = "cdn.onlydjango.com"
 STORAGES = {
     "default": {
-        "BACKEND": "storages.backends.s3.S3Storage",
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
         "OPTIONS": {},
     },
     "staticfiles": {
@@ -31,8 +31,9 @@ STORAGES = {
             "base_url": "/static/",
         },
     },
+    # this is development so serve media files locally
     "media": {
-        "BACKEND": "storages.backends.s3.S3Storage",
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
         "OPTIONS": {},
     },
 }
