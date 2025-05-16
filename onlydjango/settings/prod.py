@@ -40,11 +40,23 @@ STORAGES = {
         "OPTIONS": {},
     },
 }
+
+from boto3.s3.transfer import TransferConfig
+
+AWS_S3_TRANSFER_CONFIG = TransferConfig(
+    multipart_threshold=8 * 1024 * 1024,
+    multipart_chunksize=8 * 1024 * 1024,
+    max_concurrency=10,
+    use_threads=True,
+)
+
+
 STATIC_URL = "static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_DIRS = [
     os.path.join(PROJECT_DIR, "static"),
 ]
+
 
 # for django all auth
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
@@ -63,9 +75,9 @@ DATABASES = {
         "PORT": os.environ["PGPORT"],
         "OPTIONS": {
             "pool": {
-                "min_size": 2,
-                "max_size": 4,
-                "timeout": 10,
+                'min_size': int(os.getenv('DB_POOL_MIN_SIZE', 5)),
+                'max_size': int(os.getenv('DB_POOL_MAX_SIZE', 100)),
+                'timeout': int(os.getenv('DB_POOL_TIMEOUT', 500)),
             }
         },
     }
@@ -84,8 +96,6 @@ CACHES = {
         "KEY_PREFIX": SITE_NAME,
     }
 }
-
-HUEY = RedisHuey("huey", url=REDIS_URL)
 
 # Email to receive error logs
 ADMINS = [("Admin", os.environ["ADMIN_EMAIL"])]
@@ -152,5 +162,9 @@ LOGGING = {
         },
     },
 }
+
+HUEY = PriorityRedisHuey('huey', url=REDIS_URL)
+# sometimes huey refuses to start tasks
+HUEY.periodic_task_check_frequency = 1
 
 

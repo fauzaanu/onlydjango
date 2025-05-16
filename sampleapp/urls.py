@@ -10,8 +10,7 @@ In urls the new line rules of flake8 and black are not great to view. This is ob
 # fmt: off
 urlpatterns = [
     # Public views
-    path("", views.dashboard_view, name="dashboard"),
-
+    path("", views.DashboardView.as_view(), name="dashboard"),
 
     # Admin views
 

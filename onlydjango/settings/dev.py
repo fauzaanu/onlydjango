@@ -1,7 +1,7 @@
 import logging
 from os import path
 from .base import *
-from huey import RedisHuey
+from huey import PriorityRedisHuey
 
 DEBUG = True
 ALLOWED_HOSTS = [
@@ -19,30 +19,52 @@ SECRET_KEY = "1234"
 # AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
 # AWS_S3_SIGNATURE_VERSION = "s3v4"
 # AWS_S3_CUSTOM_DOMAIN = "cdn.onlydjango.com"
-STORAGES = {
-    "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
-        "OPTIONS": {},
-    },
-    "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
-        "OPTIONS": {
-            "location": path.join(BASE_DIR, "staticfiles"),
-            "base_url": "/static/",
-        },
-    },
-    # this is development so serve media files locally
-    "media": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
-        "OPTIONS": {},
-    },
-}
+S3_STORAGE = False
 
-STATIC_URL = "static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+if not S3_STORAGE:
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+            "OPTIONS": {},
+        },
+        "staticfiles": {
+            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+            "OPTIONS": {
+                "location": path.join(BASE_DIR, "staticfiles"),  # noqa
+                "base_url": "/static/",
+            },
+        },
+        # this is development so serve media files locally
+        "media": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+            "OPTIONS": {
+                "location": path.join(BASE_DIR, "media"),  # noqa
+                "base_url": "/media/",
+            },
+        },
+    }
+else:
+    STORAGES = {
+        'default': {
+            'BACKEND': 'storages.backends.s3.S3Storage',
+            'OPTIONS': {},
+        },
+        'staticfiles': {
+            'BACKEND': 'storages.backends.s3.S3Storage',
+            'OPTIONS': {},
+        },
+        'media': {
+            'BACKEND': 'storages.backends.s3.S3Storage',
+            'OPTIONS': {},
+        },
+    }
+
+STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # noqa
 STATICFILES_DIRS = [
-    os.path.join(PROJECT_DIR, "static"),
+    os.path.join(PROJECT_DIR, 'static'),  # noqa
 ]
+
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 # POSTGRES
@@ -75,8 +97,11 @@ CACHES = {
     }
 }
 
-# Tasks backend
-HUEY = RedisHuey(url=REDIS_URL)
+
+HUEY = PriorityRedisHuey(host='localhost', port=6379)
+HUEY.flush()
+# sometimes huey refuses to start tasks
+HUEY.periodic_task_check_frequency = 1
 
 TELEGRAM_BOT_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 TELEGRAM_CHAT_ID = os.environ["TELEGRAM_CHAT_ID"]
