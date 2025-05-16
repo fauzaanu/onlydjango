@@ -4,6 +4,10 @@ sudo docker rm -f $(sudo docker ps -aq) && sudo docker compose -f dev_helpers/de
 ```
 
 ```bash
+docker compose -f dev_helpers/dev.docker-compose.yml up -d
+```
+
+```bash
 uv run python manage.py migrate
 ```
 
