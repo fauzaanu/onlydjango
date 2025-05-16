@@ -11,6 +11,7 @@ urlpatterns = [
 urlpatterns += [
     path("__debug__/", include(debug_toolbar.urls)),
     path("__reload__/", include("django_browser_reload.urls")),
+    path("accounts/", include("allauth.urls")),
 
     # apps
     path("", include("sampleapp.urls")),
@@ -18,4 +19,3 @@ urlpatterns += [
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-

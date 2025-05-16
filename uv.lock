@@ -139,15 +139,15 @@ sdist = { url = "https://files.pythonhosted.org/packages/09/50/4fa3a907be1a49f5a
 
 [[package]]
 name = "django-browser-reload"
-version = "1.12.1"
+version = "1.18.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "asgiref" },
     { name = "django" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/86/60/f1f931622199abdfa2463d0d8477186520b8ab1acc1c372fa23bb0716184/django-browser-reload-1.12.1.tar.gz", hash = "sha256:875b6bd01db13380522ccb4ae75871a2edeae74bb5ac92bf32eb76763d575d86", size = 14313 }
+sdist = { url = "https://files.pythonhosted.org/packages/3b/41/84eaa4f2b7f764e56e01c4ee49aa12bdea30ae50fd0d3ef7c2690b0c4ec2/django_browser_reload-1.18.0.tar.gz", hash = "sha256:c5f0b134723cbf2a0dc9ae1ee1d38e42db28fe23c74cdee613ba3ef286d04735", size = 14319 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/75/4b/a0169150ea27b11fd5745a778c6f5fb1465d2d04ff0f606c83f5e35709b7/django_browser_reload-1.12.1-py3-none-any.whl", hash = "sha256:08b457f1b6599bf782d4d2ecdfb0897d6fc936ac4035060d0269c2af5ef4ef7a", size = 12227 },
+    { url = "https://files.pythonhosted.org/packages/e4/9d/1322dc4bce4982d1eadd3a62802c996ae0303aad13d9ad88c1d35025f73d/django_browser_reload-1.18.0-py3-none-any.whl", hash = "sha256:ed4cc2fb83c3bf6c30b54107a1a6736c0b896e62e4eba666d81005b9f2ecf6f8", size = 12230 },
 ]
 
 [[package]]
@@ -176,15 +176,15 @@ wheels = [
 
 [[package]]
 name = "django-debug-toolbar"
-version = "4.2.0"
+version = "5.2.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "django" },
     { name = "sqlparse" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/65/bd/81b812b3a69874f382514a8982f1e7c30e9851e86c9d976eef4960da97ac/django_debug_toolbar-4.2.0.tar.gz", hash = "sha256:bc7fdaafafcdedefcc67a4a5ad9dac96efd6e41db15bc74d402a54a2ba4854dc", size = 259709 }
+sdist = { url = "https://files.pythonhosted.org/packages/2a/9f/97ba2648f66fa208fc7f19d6895586d08bc5f0ab930a1f41032e60f31a41/django_debug_toolbar-5.2.0.tar.gz", hash = "sha256:9e7f0145e1a1b7d78fcc3b53798686170a5b472d9cf085d88121ff823e900821", size = 297901 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/f7/5c/fffae0d49d0b9d6a0782540e172272edf70493588ec9fca10b01a3a75c3e/django_debug_toolbar-4.2.0-py3-none-any.whl", hash = "sha256:af99128c06e8e794479e65ab62cc6c7d1e74e1c19beb44dcbf9bad7a9c017327", size = 223156 },
+    { url = "https://files.pythonhosted.org/packages/fa/c2/ed3cb815002664349e9e50799b8c00ef15941f4cad797247cadbdeebab02/django_debug_toolbar-5.2.0-py3-none-any.whl", hash = "sha256:15627f4c2836a9099d795e271e38e8cf5204ccd79d5dbcd748f8a6c284dcd195", size = 262834 },
 ]
 
 [[package]]
@@ -392,7 +392,6 @@ dependencies = [
     { name = "django-storages", extra = ["s3"] },
     { name = "gunicorn" },
     { name = "huey" },
-    { name = "pillow" },
     { name = "psycopg", extra = ["binary", "pool"] },
     { name = "python-dotenv" },
     { name = "pytz" },
@@ -408,15 +407,14 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "django", specifier = ">=5.2" },
-    { name = "django-allauth", specifier = ">=64.1.0" },
-    { name = "django-browser-reload", specifier = "==1.12.1" },
+    { name = "django-allauth", specifier = ">=65.8.0" },
+    { name = "django-browser-reload", specifier = ">=1.18.0" },
     { name = "django-cotton", specifier = ">=0.9.32" },
     { name = "django-custom-error-views", specifier = ">=0.2.5" },
-    { name = "django-debug-toolbar", specifier = "==4.2.0" },
-    { name = "django-storages", extras = ["s3"], specifier = ">=1.14.4" },
+    { name = "django-debug-toolbar", specifier = ">=5.2.0" },
+    { name = "django-storages", extras = ["s3"], specifier = ">=1.14.6" },
     { name = "gunicorn", specifier = ">=23.0.0" },
     { name = "huey", specifier = ">=2.5.1" },
-    { name = "pillow", specifier = ">=10.4.0" },
     { name = "psycopg", extras = ["binary", "pool"], specifier = ">=3.2.1" },
     { name = "python-dotenv", specifier = ">=1.0.1" },
     { name = "pytz", specifier = ">=2024.1" },
