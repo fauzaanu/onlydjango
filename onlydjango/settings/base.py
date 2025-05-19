@@ -75,7 +75,7 @@ CSRF_TRUSTED_ORIGINS = ["https://onlydjango.com", "https://www.onlydjango.com"]
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    'wagtail.contrib.redirects.middleware.RedirectMiddleware', # COMMENT FOR NON WAGTAIl
+    'wagtail.contrib.redirects.middleware.RedirectMiddleware',  # COMMENT FOR NON WAGTAIl
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -115,6 +115,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "onlydjango.onlydjango_globals.global_settings",
             ],
         },
     },
@@ -173,7 +174,6 @@ SOCIALACCOUNT_PROVIDERS = {
 
 SITE_VERSION = "0.0.1"
 SITE_NAME = os.getenv("SITE_NAME")
-
 
 # [
 #   {
