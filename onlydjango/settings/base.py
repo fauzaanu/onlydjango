@@ -8,7 +8,11 @@ BASE_DIR = PROJECT_DIR.parent
 WSGI_APPLICATION = "onlydjango.wsgi.application"
 
 FIRST_PARTY_APPS = [
-    "sampleapp",
+    # the onlydjango folder is actually your project folder
+    # However it is added here so that django will pickup the management commands from this directory
+    # The management command improves the manage.py startapp command to automatically add apps inside this list
+    'onlydjango',
+    # Your django apps go below
 ]
 
 ALL_AUTH_APPS = [
@@ -115,7 +119,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                "onlydjango.onlydjango_globals.global_settings",
+                "onlydjango.helpers.onlydjango_globals.global_settings",
             ],
         },
     },

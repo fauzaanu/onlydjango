@@ -125,7 +125,7 @@ LOGGING = {
         },
         "telegram": {
             "level": "DEBUG",
-            "class": "onlydjango.telegram_logging.TelegramBotHandler",
+            "class": "onlydjango.helpers.telegram_logging.TelegramBotHandler",
             "telegram_bot_token": TELEGRAM_BOT_TOKEN,
             "telegram_chat_id": TELEGRAM_CHAT_ID,
         },
