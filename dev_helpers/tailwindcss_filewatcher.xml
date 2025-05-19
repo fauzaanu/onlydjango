@@ -7,7 +7,7 @@
     <option name="fileExtension" value="*" />
     <option name="immediateSync" value="true" />
     <option name="name" value="tailwindcss" />
-    <option name="output" value="$PROJECT_DIR$\onlydjango\static\css\style.css" />
+    <option name="output" value="$ProjectFileDir$\onlydjango\static\css\style.css" />
     <option name="outputFilters">
       <array />
     </option>
@@ -16,7 +16,7 @@
     <option name="runOnExternalChanges" value="true" />
     <option name="scopeName" value="Project Files" />
     <option name="trackOnlyRoot" value="false" />
-    <option name="workingDir" value="$PROJECT_DIR$" />
+    <option name="workingDir" value="$ProjectFileDir$" />
     <envs />
   </TaskOptions>
-</TaskOptions>  
+</TaskOptions>
