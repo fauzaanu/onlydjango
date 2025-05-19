@@ -86,7 +86,7 @@ DATABASES = {
 # Cache settings
 # https://docs.djangoproject.com/en/5.0/topics/cache/#setting-up-the-cache
 
-REDIS_URL = os.environ["REDIS_PRIVATE_URL"]
+REDIS_URL = os.environ["REDIS_URL"]
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
