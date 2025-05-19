@@ -110,7 +110,7 @@ python manage.py shell -c "from django.contrib.auth import get_user_model; User 
 Compile TailwindCSS styles:
 
 ```bash
-npx tailwindcss -i onlydjango/input.css -o Project/static/css/style.css
+npx tailwindcss -i onlydjango/input.css -o onlydjango/static/css/style.css
 ```
 
 *Tip:* Set this as a FileWatcher in PyCharm for automatic builds.
