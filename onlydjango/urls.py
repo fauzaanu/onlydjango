@@ -19,8 +19,9 @@ urlpatterns += [
     path('pages/', include(wagtail_urls)),
     path('accounts/', include('allauth.urls')),
 
-    # apps
-    path("", include("sampleapp.urls")),
+    # apps : YOUR APP URLS go here
+    # Note that wagtail urls dont need including if using default aproach of wagtail
+
 ]
 
 if settings.DEBUG:
