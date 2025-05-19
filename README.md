@@ -24,7 +24,7 @@ Alpine.js is utilized primarily for simple interactions and animations. Data loo
 Instead of traditional Django `extends` and `include` syntax, **OnlyDjango** leverages [django-cotton](https://django-cotton.com/) for a modern, component-driven approach:
 
 ```django
-<c-component>
+<c-component />
 ```
 
 ## Required Configuration
