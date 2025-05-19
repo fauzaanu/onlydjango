@@ -1,4 +1,3 @@
-import logging
 from os import path
 from .base import *
 from huey import PriorityRedisHuey

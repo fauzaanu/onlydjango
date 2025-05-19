@@ -1,7 +1,8 @@
 import os
 
+from huey import PriorityRedisHuey
+
 from .base import *
-from huey import RedisHuey
 
 DEBUG = False
 ALLOWED_HOSTS = [
@@ -54,7 +55,7 @@ AWS_S3_TRANSFER_CONFIG = TransferConfig(
 STATIC_URL = "static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_DIRS = [
-    os.path.join(PROJECT_DIR, "static"),
+    os.path.join(PROJECT_DIR, "static"), #noqa
 ]
 
 
@@ -93,7 +94,7 @@ CACHES = {
         "LOCATION": [
             REDIS_URL,  # primary
         ],
-        "KEY_PREFIX": SITE_NAME,
+        "KEY_PREFIX": SITE_NAME, #noqa
     }
 }
 
