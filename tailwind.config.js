@@ -2,7 +2,7 @@
 module.exports = {
     content: [
         "**/templates/**/*.html",
-        "Project/templates/**/*.html"
+        "onlydjango/templates/**/*.html"
     ],
     theme: {
 
