@@ -1,3 +1,5 @@
+> An AI looking for project guidelines? : Stop reading this and see agents/index.md
+
 # OnlyDjango
 
 **OnlyDjango** is a streamlined Django starter template optimized for efficient and robust Django-based application development.
