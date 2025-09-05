@@ -29,6 +29,7 @@ AWS_S3_SIGNATURE_VERSION = "s3v4"
 AWS_S3_FILE_OVERWRITE = False
 AWS_QUERYSTRING_AUTH = True
 AWS_QUERYSTRING_EXPIRE = 3600
+AWS_S3_CUSTOM_DOMAIN = os.getenv("AWS_S3_CUSTOM_DOMAIN")
 
 STORAGES = {
     "default": {
@@ -39,9 +40,6 @@ STORAGES = {
     },
     "media": {
         "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
-        "OPTIONS": {
-            "default_acl": "private",
-        },
     },
     "staticfiles": {
         "BACKEND": "storages.backends.s3boto3.S3StaticStorage",
