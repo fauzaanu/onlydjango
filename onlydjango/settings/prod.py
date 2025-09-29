@@ -3,23 +3,29 @@ import os
 from huey import PriorityRedisHuey
 
 from .base import *
+from onlydjango.helpers.host_utils import normalize_host
+
+## HOST SETTINGS ##
+# You should define `MAIN_HOST` as example.com in the ENV
 
 DEBUG = False
-HTTPS_HOST = "https://" + os.getenv('MAIN_HOST', 'onlydjango.com')
-COOKIE_HOST = "." + os.getenv('MAIN_HOST', 'onlydjango.com')
-ALLOWED_HOSTS = [
-    os.getenv('MAIN_HOST', 'onlydjango.com'),
-]
-SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
+MAIN_HOST = normalize_host(os.getenv('MAIN_HOST', 'onlydjango.com'))
+HTTPS_HOST = f"https://{MAIN_HOST}"
+COOKIE_HOST = f".{MAIN_HOST}"
 
-CSRF_TRUSTED_ORIGINS = [
-    HTTPS_HOST
+ALLOWED_HOSTS = [
+    MAIN_HOST,
 ]
+
+SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
+CSRF_TRUSTED_ORIGINS = [
+    HTTPS_HOST,
+]
+
 CSRF_COOKIE_DOMAIN = COOKIE_HOST
 SESSION_COOKIE_DOMAIN = COOKIE_HOST
 CSRF_COOKIE_SECURE = True
 
-# for django all auth
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
 
 # Database
@@ -67,8 +73,8 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ["EMAIL_HOST_USER"]  # secrets
-EMAIL_HOST_PASSWORD = os.environ["EMAIL_HOST_PASSWORD"]  # secrets
+EMAIL_HOST_USER = os.environ["EMAIL_HOST_USER"]
+EMAIL_HOST_PASSWORD = os.environ["EMAIL_HOST_PASSWORD"]
 
 # setup logging - log to file and email
 # https://docs.djangoproject.com/en/5.0/topics/logging/
