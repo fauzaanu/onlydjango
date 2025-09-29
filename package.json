@@ -1,7 +1,4 @@
 {
-  "scripts": {
-    "twb": "tailwindcss -i input.css -o ../static/css/style.css --verbose --purge"
-  },
   "dependencies": {
     "tailwindcss": "^3.4.14"
   }
