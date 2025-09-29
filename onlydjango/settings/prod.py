@@ -5,23 +5,19 @@ from huey import PriorityRedisHuey
 from .base import *
 
 DEBUG = False
+HTTPS_HOST = "https://" + os.getenv('MAIN_HOST', 'onlydjango.com')
+COOKIE_HOST = "." + os.getenv('MAIN_HOST', 'onlydjango.com')
 ALLOWED_HOSTS = [
-    "onlydjango.com",
+    os.getenv('MAIN_HOST', 'onlydjango.com'),
 ]
-SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]  # secret
+SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://onlydjango.com",
-    "https://beta.onlydjango.com",
-    "https://staging.onlydjango.com",
+    HTTPS_HOST
 ]
-CSRF_COOKIE_DOMAIN = ".onlydjango.com"
-SESSION_COOKIE_DOMAIN = ".onlydjango.com"
+CSRF_COOKIE_DOMAIN = COOKIE_HOST
+SESSION_COOKIE_DOMAIN = COOKIE_HOST
 CSRF_COOKIE_SECURE = True
-
-
-
-
 
 # for django all auth
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
@@ -56,9 +52,9 @@ CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
         "LOCATION": [
-            REDIS_URL,  # primary
+            REDIS_URL,
         ],
-        "KEY_PREFIX": SITE_NAME, #noqa
+        "KEY_PREFIX": SITE_NAME,  # noqa
     }
 }
 
@@ -129,7 +125,4 @@ LOGGING = {
 }
 
 HUEY = PriorityRedisHuey('huey', url=REDIS_URL)
-# sometimes huey refuses to start tasks
 HUEY.periodic_task_check_frequency = 1
-
-
