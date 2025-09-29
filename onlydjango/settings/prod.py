@@ -20,41 +20,7 @@ SESSION_COOKIE_DOMAIN = ".onlydjango.com"
 CSRF_COOKIE_SECURE = True
 
 
-# Use any S3 Compatible storage backend for static and media files
-AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
-AWS_S3_ENDPOINT_URL = os.getenv("AWS_S3_ENDPOINT_URL")
-AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
-AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
-AWS_S3_SIGNATURE_VERSION = "s3v4"
-AWS_S3_FILE_OVERWRITE = False
-AWS_QUERYSTRING_AUTH = True
-AWS_QUERYSTRING_EXPIRE = 3600
-AWS_S3_CUSTOM_DOMAIN = os.getenv("AWS_S3_CUSTOM_DOMAIN")
 
-STORAGES = {
-    "default": {
-        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
-        "OPTIONS": {
-            "default_acl": "private",
-        },
-    },
-    "media": {
-        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
-    },
-    "staticfiles": {
-        "BACKEND": "storages.backends.s3boto3.S3StaticStorage",
-        "OPTIONS": {
-            "custom_domain": os.getenv("AWS_S3_CUSTOM_DOMAIN"),
-        },
-    },
-}
-
-
-STATIC_URL = "static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-STATICFILES_DIRS = [
-    os.path.join(PROJECT_DIR, "static"), #noqa
-]
 
 
 # for django all auth

@@ -39,7 +39,7 @@ def main():
     for cid in result.stdout.split():
         run(f"docker rm -f {cid}")
 
-    run("docker compose -f dev_helpers/dev.docker-compose.yml up -d")
+    run("docker compose -f onlydjango/dev_helpers/dev.docker-compose.yml up -d")
     run("uv run python manage.py makemigrations")
     run("uv run python manage.py migrate")
 

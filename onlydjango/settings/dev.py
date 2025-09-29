@@ -18,9 +18,10 @@ SECRET_KEY = "1234"
 # AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
 # AWS_S3_SIGNATURE_VERSION = "s3v4"
 # AWS_S3_CUSTOM_DOMAIN = "cdn.onlydjango.com"
-S3_STORAGE = False
+os.environ.setdefault('DEV_STORAGE', 'local') # use `S3` for S3
 
-if not S3_STORAGE:
+if os.environ.get("DEV_STORAGE") == "local":
+    # No Else needed as base contains S3 settings configured
     STORAGES = {
         "default": {
             "BACKEND": "django.core.files.storage.FileSystemStorage",
@@ -33,28 +34,13 @@ if not S3_STORAGE:
                 "base_url": "/static/",
             },
         },
-        # this is development so serve media files locally
+
         "media": {
             "BACKEND": "django.core.files.storage.FileSystemStorage",
             "OPTIONS": {
                 "location": path.join(BASE_DIR, "media"),  # noqa
                 "base_url": "/media/",
             },
-        },
-    }
-else:
-    STORAGES = {
-        'default': {
-            'BACKEND': 'storages.backends.s3.S3Storage',
-            'OPTIONS': {},
-        },
-        'staticfiles': {
-            'BACKEND': 'storages.backends.s3.S3Storage',
-            'OPTIONS': {},
-        },
-        'media': {
-            'BACKEND': 'storages.backends.s3.S3Storage',
-            'OPTIONS': {},
         },
     }
 
