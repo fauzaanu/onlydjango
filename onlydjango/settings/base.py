@@ -48,30 +48,8 @@ DJANGO_APPS = [
     "django.contrib.sitemaps",
 ]
 
-WAGTAIL_APPS = [
-    'wagtail.locales',
-    'wagtail.contrib.forms',
-    'wagtail.contrib.redirects',
-    'wagtail.embeds',
-    'wagtail.sites',
-    'wagtail.users',
-    'wagtail.snippets',
-    'wagtail.documents',
-    'wagtail.images',
-    'wagtail.search',
-    'wagtail.admin',
-
-    'wagtail',
-
-    'modelcluster',
-    'taggit',
-]
-WAGTAIL_SITE_NAME = 'My Example Site'
-WAGTAILADMIN_BASE_URL = 'http://onlydjango.com'
-WAGTAILDOCS_EXTENSIONS = ['csv', 'docx', 'key', 'odt', 'pdf', 'pptx', 'rtf', 'txt', 'xlsx', 'zip']
-
 INSTALLED_APPS = (DJANGO_APPS + ALL_AUTH_APPS + THIRD_PARTY_APPS +
-                  FIRST_PARTY_APPS + WAGTAIL_APPS)
+                  FIRST_PARTY_APPS)
 
 SITE_ID = 1
 CSRF_TRUSTED_ORIGINS = ["https://onlydjango.com", "https://www.onlydjango.com"]
@@ -79,7 +57,6 @@ CSRF_TRUSTED_ORIGINS = ["https://onlydjango.com", "https://www.onlydjango.com"]
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    'wagtail.contrib.redirects.middleware.RedirectMiddleware',  # COMMENT FOR NON WAGTAIl
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -178,7 +155,18 @@ SOCIALACCOUNT_PROVIDERS = {
 
 SITE_VERSION = "0.0.1"
 SITE_NAME = os.getenv("SITE_NAME")
-
+SITE_NAME=""
+SITE_AUTHOR=""
+SITE_KEYWORDS=""
+SITE_DESCRIPTION=""
+OG_TYPE=""
+OG_TITLE=""
+OG_DESCRIPTION=""
+OG_IMAGE=""
+TWITTER_CARD=""
+TWITTER_TITLE=""
+TWITTER_DESCRIPTION=""
+TWITTER_IMAGE=""
 # [
 #   {
 #     "AllowedOrigins": [

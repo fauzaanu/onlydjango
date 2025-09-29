@@ -1,6 +1,25 @@
-**Django Cotton + TailwindCSS Quick Reference**
+# Django cotton docs summary
+
+Before anything here are the most important facts you should remmember about django cotton
+
+The templates have `<c-file-name />` but the file is named `cotton/file_name.html`. This is something we often forget.
+
+We have some tags we shouldnt use. mentioned in another guideline file.
+
+We have a mechanism to pass dynamic data into components that prefixes ":" before a variable name
+--
+
+For each application we have a seperate cotton folder within the templates. We can make variations of components by converting the file name to a folder and including an index.html where the default component lives which is automatically picked up without the mention of index but we can then add print.html as another component inside the folder to be shown on a perhaps print only page
+
+So:
+<c-file-name /> on regular pages and <c-file-name.print /> for the print page
+
+the dirs look like:
+apps/cotton/report/file_name/index.html
+apps/cotton/report/file_name/print.html
 
 ---
+Here is the full summarized docs for you to refer about django cotton
 
 ### Components
 
