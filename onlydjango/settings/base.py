@@ -20,13 +20,6 @@ ALL_AUTH_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.telegram",
-    # # ... include the providers you want to enable:
-    # 'allauth.socialaccount.providers.telegram',
-    # 'allauth.socialaccount.providers.apple',
-    # 'allauth.socialaccount.providers.amazon',
-    # 'allauth.socialaccount.providers.discord',
-    # 'allauth.socialaccount.providers.facebook',
-    # 'allauth.socialaccount.providers.microsoft',
 ]
 
 THIRD_PARTY_APPS = [
@@ -52,22 +45,21 @@ INSTALLED_APPS = (DJANGO_APPS + ALL_AUTH_APPS + THIRD_PARTY_APPS +
                   FIRST_PARTY_APPS)
 
 SITE_ID = 1
-CSRF_TRUSTED_ORIGINS = ["https://onlydjango.com", "https://www.onlydjango.com"]
-
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.auth.middleware.LoginRequiredMiddleware",
+    # "django.contrib.auth.middleware.LoginRequiredMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
+    # Debug toolbar
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     # all-auth
     "allauth.account.middleware.AccountMiddleware",
-    # br
+    # Browser reload
     "django_browser_reload.middleware.BrowserReloadMiddleware",
 
 ]
@@ -186,7 +178,6 @@ STATICFILES_DIRS = [
 
 SITE_VERSION = "0.0.1"
 SITE_NAME = os.getenv("SITE_NAME")
-SITE_NAME=""
 SITE_AUTHOR=""
 SITE_KEYWORDS=""
 SITE_DESCRIPTION=""

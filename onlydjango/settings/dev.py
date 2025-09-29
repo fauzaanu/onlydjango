@@ -3,6 +3,7 @@ from .base import *
 from huey import PriorityRedisHuey
 
 DEBUG = True
+CSRF_TRUSTED_ORIGINS = ["https://onlydjango.com", "https://www.onlydjango.com"]
 ALLOWED_HOSTS = [
     "*",
 ]
