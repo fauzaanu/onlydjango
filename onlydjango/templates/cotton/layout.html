@@ -31,16 +31,20 @@
 
     <title>{{ site_name }}</title>
 
-    <!-- FontAwesome Icons -->
-    <link href="{% static 'fontawesome/css/fontawesome.css' %}" rel="stylesheet"/>
-    <link href="{% static 'fontawesome/css/brands.css' %}" rel="stylesheet"/>
-    <link href="{% static 'fontawesome/css/solid.css' %}" rel="stylesheet"/>
-    <link href="{% static 'fontawesome/css/sharp-thin.css' %}" rel="stylesheet"/>
-    <link href="{% static 'fontawesome/css/duotone-thin.css' %}" rel="stylesheet"/>
-    <link href="{% static 'fontawesome/css/sharp-duotone-thin.css' %}" rel="stylesheet"/>
-
     <!-- Alpine.js -->
     <script defer src="{% static 'js/alpine.min.js' %}"></script>
+    <script defer src="{% static 'js/htmx.min.js' %}"></script>
+    <script defer src="{% static 'js/kandy.js' %}"></script>
+    {#    <script defer src="{% static 'js/htmx2.min.js' %}"></script>#}
+
+
+    <style>
+        body:not(.js-loaded) [kandy-loading] {
+            display: none !important;
+        }
+    </style>
+
+    {{ extra_head }}
 </head>
 <body class="flex flex-col min-h-screen max-w-7xl mx-auto">
 

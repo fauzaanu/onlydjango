@@ -4,10 +4,16 @@ import json
 from pathlib import Path
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
+from concurrent.futures import ThreadPoolExecutor, as_completed
+import threading
 
 
 class Command(BaseCommand):
-    help = 'Download files from a GitHub repository KIRO folder to local .kiro directory'
+    help = 'Download files from a GitHub repository .kiro folder to local .kiro directory'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.print_lock = threading.Lock()
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -28,11 +34,18 @@ class Command(BaseCommand):
             action='store_true',
             help='Overwrite existing files without confirmation'
         )
+        parser.add_argument(
+            '--max-workers',
+            type=int,
+            default=10,
+            help='Maximum number of concurrent downloads (default: 10)'
+        )
 
     def handle(self, *args, **options):
         repo_url = options['repo_url']
         branch = options['branch']
         force = options['force']
+        max_workers = options['max_workers']
         
         # Parse GitHub URL to get owner and repo name
         try:
@@ -46,10 +59,10 @@ class Command(BaseCommand):
                 'Invalid GitHub URL. Expected format: https://github.com/owner/repo'
             )
 
-        self.stdout.write(f'Syncing KIRO files from {owner}/{repo} (branch: {branch})')
+        self.stdout.write(f'Syncing .kiro files from {owner}/{repo} (branch: {branch})')
         
-        # GitHub API URL for the KIRO folder
-        api_url = f'https://api.github.com/repos/{owner}/{repo}/contents/KIRO'
+        # GitHub API URL for the .kiro folder
+        api_url = f'https://api.github.com/repos/{owner}/{repo}/contents/.kiro'
         
         try:
             # Get KIRO folder contents
@@ -57,31 +70,23 @@ class Command(BaseCommand):
             response.raise_for_status()
             
             if response.status_code == 404:
-                raise CommandError(f'KIRO folder not found in {owner}/{repo} on branch {branch}')
+                raise CommandError(f'.kiro folder not found in {owner}/{repo} on branch {branch}')
             
             files_data = response.json()
             
             if not isinstance(files_data, list):
-                raise CommandError('KIRO is not a directory or is empty')
+                raise CommandError('.kiro is not a directory or is empty')
             
             # Create .kiro directory if it doesn't exist
             kiro_dir = Path('.kiro')
             kiro_dir.mkdir(exist_ok=True)
             
-            # Process each file in the KIRO folder
-            downloaded_count = 0
-            skipped_count = 0
+            # Collect all files to download
+            all_files = []
+            self._collect_files(files_data, kiro_dir, owner, repo, branch, all_files)
             
-            for file_info in files_data:
-                if file_info['type'] == 'file':
-                    downloaded_count += self._download_file(
-                        file_info, kiro_dir, force
-                    )
-                elif file_info['type'] == 'dir':
-                    # Recursively download directory contents
-                    downloaded_count += self._download_directory(
-                        file_info, kiro_dir, owner, repo, branch, force
-                    )
+            # Download files concurrently
+            downloaded_count = self._download_files_concurrent(all_files, force, max_workers)
             
             self.stdout.write(
                 self.style.SUCCESS(
@@ -94,21 +99,82 @@ class Command(BaseCommand):
         except json.JSONDecodeError:
             raise CommandError('Invalid response from GitHub API')
 
-    def _download_file(self, file_info, base_dir, force):
-        """Download a single file"""
-        file_name = file_info['name']
-        download_url = file_info['download_url']
-        local_path = base_dir / file_name
+    def _collect_files(self, files_data, base_dir, owner, repo, branch, all_files, parent_path=''):
+        """Recursively collect all files to download"""
+        for file_info in files_data:
+            if file_info['type'] == 'file':
+                local_path = base_dir / file_info['name'] if not parent_path else base_dir / parent_path / file_info['name']
+                all_files.append({
+                    'file_info': file_info,
+                    'local_path': local_path,
+                    'download_url': file_info['download_url']
+                })
+            elif file_info['type'] == 'dir':
+                # Get directory contents and collect files recursively
+                dir_name = file_info['name']
+                current_path = f'.kiro/{parent_path}/{dir_name}' if parent_path else f'.kiro/{dir_name}'
+                api_url = f'https://api.github.com/repos/{owner}/{repo}/contents/{current_path}'
+                
+                try:
+                    response = requests.get(f'{api_url}?ref={branch}')
+                    response.raise_for_status()
+                    dir_contents = response.json()
+                    
+                    # Create local directory
+                    local_dir = base_dir / parent_path / dir_name if parent_path else base_dir / dir_name
+                    local_dir.mkdir(parents=True, exist_ok=True)
+                    
+                    # Recursively collect files from subdirectory
+                    new_parent_path = f'{parent_path}/{dir_name}' if parent_path else dir_name
+                    self._collect_files(dir_contents, base_dir, owner, repo, branch, all_files, new_parent_path)
+                    
+                except requests.RequestException as e:
+                    with self.print_lock:
+                        self.stdout.write(
+                            self.style.ERROR(f'Failed to fetch directory {dir_name}: {e}')
+                        )
+
+    def _download_files_concurrent(self, all_files, force, max_workers):
+        """Download all files concurrently using ThreadPoolExecutor"""
+        downloaded_count = 0
         
-        # Check if file exists and handle confirmation
-        if local_path.exists() and not force:
-            self.stdout.write(
-                self.style.WARNING(f'File {local_path} already exists.')
-            )
-            confirm = input('Overwrite? (y/N): ').lower().strip()
-            if confirm != 'y':
-                self.stdout.write(f'Skipped {file_name}')
-                return 0
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            # Submit all download tasks
+            future_to_file = {
+                executor.submit(self._download_single_file, file_data, force): file_data 
+                for file_data in all_files
+            }
+            
+            # Process completed downloads
+            for future in as_completed(future_to_file):
+                file_data = future_to_file[future]
+                try:
+                    result = future.result()
+                    downloaded_count += result
+                except Exception as e:
+                    with self.print_lock:
+                        self.stdout.write(
+                            self.style.ERROR(f'Failed to download {file_data["local_path"]}: {e}')
+                        )
+        
+        return downloaded_count
+
+    def _download_single_file(self, file_data, force):
+        """Download a single file (thread-safe)"""
+        file_info = file_data['file_info']
+        local_path = file_data['local_path']
+        download_url = file_data['download_url']
+        file_name = file_info['name']
+        
+        # Ensure parent directory exists
+        local_path.parent.mkdir(parents=True, exist_ok=True)
+        
+        # Check if file exists and show info
+        if local_path.exists():
+            with self.print_lock:
+                self.stdout.write(
+                    self.style.WARNING(f'Overwriting existing file: {local_path}')
+                )
         
         try:
             # Download file content
@@ -119,116 +185,14 @@ class Command(BaseCommand):
             with open(local_path, 'wb') as f:
                 f.write(response.content)
             
-            self.stdout.write(f'Downloaded: {file_name}')
+            with self.print_lock:
+                self.stdout.write(f'Downloaded: {local_path}')
             return 1
             
         except requests.RequestException as e:
-            self.stdout.write(
-                self.style.ERROR(f'Failed to download {file_name}: {e}')
-            )
+            with self.print_lock:
+                self.stdout.write(
+                    self.style.ERROR(f'Failed to download {local_path}: {e}')
+                )
             return 0
 
-    def _download_directory(self, dir_info, base_dir, owner, repo, branch, force):
-        """Recursively download directory contents"""
-        dir_name = dir_info['name']
-        local_dir = base_dir / dir_name
-        local_dir.mkdir(exist_ok=True)
-        
-        # Get directory contents
-        api_url = f'https://api.github.com/repos/{owner}/{repo}/contents/KIRO/{dir_name}'
-        
-        try:
-            response = requests.get(f'{api_url}?ref={branch}')
-            response.raise_for_status()
-            dir_contents = response.json()
-            
-            downloaded_count = 0
-            
-            for item in dir_contents:
-                if item['type'] == 'file':
-                    # Update the item to have the correct local path
-                    item_copy = item.copy()
-                    downloaded_count += self._download_file_to_subdir(
-                        item_copy, local_dir, force
-                    )
-                elif item['type'] == 'dir':
-                    # Recursively handle subdirectories
-                    downloaded_count += self._download_subdirectory(
-                        item, local_dir, owner, repo, branch, force, f'KIRO/{dir_name}'
-                    )
-            
-            return downloaded_count
-            
-        except requests.RequestException as e:
-            self.stdout.write(
-                self.style.ERROR(f'Failed to download directory {dir_name}: {e}')
-            )
-            return 0
-
-    def _download_file_to_subdir(self, file_info, target_dir, force):
-        """Download a file to a specific subdirectory"""
-        file_name = file_info['name']
-        download_url = file_info['download_url']
-        local_path = target_dir / file_name
-        
-        # Check if file exists and handle confirmation
-        if local_path.exists() and not force:
-            self.stdout.write(
-                self.style.WARNING(f'File {local_path} already exists.')
-            )
-            confirm = input('Overwrite? (y/N): ').lower().strip()
-            if confirm != 'y':
-                self.stdout.write(f'Skipped {local_path}')
-                return 0
-        
-        try:
-            # Download file content
-            response = requests.get(download_url)
-            response.raise_for_status()
-            
-            # Write file to local directory
-            with open(local_path, 'wb') as f:
-                f.write(response.content)
-            
-            self.stdout.write(f'Downloaded: {local_path}')
-            return 1
-            
-        except requests.RequestException as e:
-            self.stdout.write(
-                self.style.ERROR(f'Failed to download {local_path}: {e}')
-            )
-            return 0
-
-    def _download_subdirectory(self, dir_info, base_dir, owner, repo, branch, force, parent_path):
-        """Recursively download subdirectory contents"""
-        dir_name = dir_info['name']
-        local_dir = base_dir / dir_name
-        local_dir.mkdir(exist_ok=True)
-        
-        # Get subdirectory contents
-        api_url = f'https://api.github.com/repos/{owner}/{repo}/contents/{parent_path}/{dir_name}'
-        
-        try:
-            response = requests.get(f'{api_url}?ref={branch}')
-            response.raise_for_status()
-            dir_contents = response.json()
-            
-            downloaded_count = 0
-            
-            for item in dir_contents:
-                if item['type'] == 'file':
-                    downloaded_count += self._download_file_to_subdir(
-                        item, local_dir, force
-                    )
-                elif item['type'] == 'dir':
-                    downloaded_count += self._download_subdirectory(
-                        item, local_dir, owner, repo, branch, force, f'{parent_path}/{dir_name}'
-                    )
-            
-            return downloaded_count
-            
-        except requests.RequestException as e:
-            self.stdout.write(
-                self.style.ERROR(f'Failed to download subdirectory {dir_name}: {e}')
-            )
-            return 0
