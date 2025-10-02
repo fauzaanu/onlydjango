@@ -17,7 +17,7 @@ class Command(BaseCommand):
         parser.add_argument(
             'folder_path',
             type=str,
-            help='Folder path to sync (e.g., ".kiro", "onlydjango.management", "apps.lessonplanner.helpers")'
+            help='Folder path to sync (e.g., ".kiro", "onlydjango/management", "apps/lessonplanner/helpers")'
         )
         parser.add_argument(
             '--repo',
@@ -62,17 +62,9 @@ class Command(BaseCommand):
                 'Invalid GitHub URL. Expected format: https://github.com/owner/repo'
             )
 
-        # Convert dot notation to path (e.g., "onlydjango.management" -> "onlydjango/management")
-        github_folder_path = folder_path.replace('.', '/')
-
-        # Determine local destination path
-        if folder_path.startswith('.'):
-            # Hidden folders like .kiro stay as-is
-            local_base_path = Path(folder_path)
-        else:
-            # For other paths, use the last part as the destination
-            # e.g., "onlydjango.management" -> "management"
-            local_base_path = Path(folder_path.split('.')[-1])
+        # Use folder path exactly as provided - no conversion
+        github_folder_path = folder_path
+        local_base_path = Path(folder_path)
 
         self.stdout.write(f'Syncing {github_folder_path} from {owner}/{repo} (branch: {branch})')
         self.stdout.write(f'Destination: {local_base_path}')
