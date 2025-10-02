@@ -1,3 +1,8 @@
+---
+inclusion: fileMatch
+fileMatchPattern: "*.py"
+---
+
 # Guide for writing tests
 
 For every View a test class must exist. This class will inherit from a base testcase or TestCase directly.

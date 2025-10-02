@@ -1,4 +1,9 @@
 
+---
+inclusion: fileMatch
+fileMatchPattern: "*.html"
+---
+
 # Dont use these template tags
 
 django-cotton allows us to develop UI in a different component based way and therefore the use of the following tags will actually get in the way of our development flow.

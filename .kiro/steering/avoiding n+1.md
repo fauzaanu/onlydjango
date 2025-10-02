@@ -1,3 +1,8 @@
+---
+inclusion: fileMatch
+fileMatchPattern: "*.py"
+---
+
 # N+1 Queries and avoiding them
 
 As mentioned in another steering document, we should use models to store business logic for the view using a classmethod.

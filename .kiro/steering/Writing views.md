@@ -1,4 +1,9 @@
 
+---
+inclusion: fileMatch
+fileMatchPattern: "*.py"
+---
+
 # No Generic Views
 
 

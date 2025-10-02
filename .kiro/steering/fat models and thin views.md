@@ -1,4 +1,9 @@
 
+---
+inclusion: fileMatch
+fileMatchPattern: "*.py"
+---
+
 # Fat Models and Thin Views
 
 Views must be as minimal as possible. It is ok to include the context dictionary within a view even though it should be minimal. However, if a context dictionary is extremely long (over 50 loc) we should move it to a services file. and call it as a method.

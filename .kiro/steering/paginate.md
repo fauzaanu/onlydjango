@@ -1,3 +1,8 @@
+---
+inclusion: fileMatch
+fileMatchPattern: "{*.py,*.html}"
+---
+
 # Pagination
 
 Pagination does make sense for tables and some data structured while it does not for others. Decide based on the data.

@@ -1,3 +1,8 @@
+---
+inclusion: fileMatch
+fileMatchPattern: "*.html"
+---
+
 # Django cotton docs summary
 
 Before anything here are the most important facts you should remmember about django cotton

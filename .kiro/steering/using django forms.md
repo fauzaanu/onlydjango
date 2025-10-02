@@ -1,3 +1,8 @@
+---
+inclusion: fileMatch
+fileMatchPattern: "{*.py,*.html}"
+---
+
 # Django forms are great, mostly but . . .
 
 Django forms are great but not so great when we use tailwindcss to design the form in a very custom way. so to allow full freedom in designing the form in whatever way we as the developer see fit we will not be using django forms on the templates. This only means we will not be passing the form on a get request to the template. we will however use djangoforms to the full extent on the post request. For example:

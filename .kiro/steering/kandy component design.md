@@ -1,3 +1,8 @@
+---
+inclusion: fileMatch
+fileMatchPattern: "*.html"
+---
+
 # Cotton Component Architecture
 
 ## Component Structure

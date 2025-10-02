@@ -1,3 +1,8 @@
+---
+inclusion: fileMatch
+fileMatchPattern: "*.py"
+---
+
 # Signals, tasks, commands and the messages framework
 
 Signals are important, use them when it makes sense to use them. For heavy operations create a signal that calls a huey task so it wont block.
