@@ -1,6 +1,6 @@
 ---
 inclusion: fileMatch
-fileMatchPattern: "*.html"
+fileMatchPattern: "{**/*.html}"
 ---
 
 # Keeping the UI code as small as possible is very beneficial

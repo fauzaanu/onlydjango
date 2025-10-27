@@ -1,7 +1,6 @@
-
 ---
 inclusion: fileMatch
-fileMatchPattern: "*.py"
+fileMatchPattern: "{**/views.py,**/models.py}"
 ---
 
 # Fat Models and Thin Views

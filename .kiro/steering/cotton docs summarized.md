@@ -1,6 +1,6 @@
 ---
 inclusion: fileMatch
-fileMatchPattern: "*.html"
+fileMatchPattern: "{**/*.html}"
 ---
 
 # Django cotton docs summary

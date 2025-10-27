@@ -1,6 +1,6 @@
 ---
 inclusion: fileMatch
-fileMatchPattern: "*.py"
+fileMatchPattern: "**/migrations/*.py"
 ---
 
 # Dont ever create migrations

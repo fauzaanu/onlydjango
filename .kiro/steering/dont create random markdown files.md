@@ -1,3 +1,9 @@
+---
+inclusion: fileMatch
+fileMatchPattern: "**/*.md"
+---
+
+
 # Do not create random markdown files
 
 You should never create random markdown files detailing on what you did as a form of progress tracking

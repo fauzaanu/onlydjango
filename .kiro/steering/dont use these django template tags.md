@@ -1,7 +1,6 @@
-
 ---
 inclusion: fileMatch
-fileMatchPattern: "*.html"
+fileMatchPattern: "**/*.html"
 ---
 
 # Dont use these template tags

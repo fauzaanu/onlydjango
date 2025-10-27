@@ -1,6 +1,6 @@
 ---
 inclusion: fileMatch
-fileMatchPattern: "*.py"
+fileMatchPattern: "{**/tests.py,**/tests/*.py}"
 ---
 
 # Guide for writing tests

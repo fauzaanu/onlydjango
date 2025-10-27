@@ -1,6 +1,6 @@
 ---
 inclusion: fileMatch
-fileMatchPattern: "{*.py,*.html}"
+fileMatchPattern: "{**/*.py,**/*.html}"
 ---
 
 # Pagination
