@@ -18,8 +18,6 @@ class TelegramBotHandler(logging.Handler):
                                     f"&text=```ServerError {message}```"
                                     f"&parse_mode=MarkdownV2"
         )
-        print(res.text)
-        print(self.telegram_bot_token)
 
     def emit(self, record):
         log_entry = self.format(record)
@@ -45,4 +43,3 @@ if __name__ == "__main__":
             os.getenv("TELEGRAM_BOT_TOKEN"), os.getenv("TELEGRAM_CHAT_ID")
         )
     )
-    logger.error("test error log")
