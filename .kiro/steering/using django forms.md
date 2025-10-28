@@ -1,6 +1,6 @@
 ---
 inclusion: fileMatch
-fileMatchPattern: "{**/forms.py,**/*.html}"
+fileMatchPattern: "**/forms.py"
 ---
 
 # Django forms are great, mostly but . . .
