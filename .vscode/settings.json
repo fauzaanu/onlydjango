@@ -1,0 +1,33 @@
+{
+    "html.autoClosingTags": false,
+    "editor.formatOnSave": false,
+    "editor.formatOnPaste": false,
+    "editor.formatOnType": false,
+    "editor.codeActionsOnSave": {},
+    "[python]": {
+        "editor.formatOnSave": false,
+        "editor.codeActionsOnSave": {}
+    },
+    "[html]": {
+        "editor.formatOnSave": false
+    },
+    "[django-html]": {
+        "editor.formatOnSave": false
+    },
+    "workbench.editor.enablePreview": false,
+    "workbench.editor.enablePreviewFromQuickOpen": false,
+    "workbench.editor.revealIfOpen": false,
+    "editor.minimap.enabled": false,
+    "breadcrumbs.enabled": false,
+    "explorer.autoReveal": false,
+    "editor.lightbulb.enabled": "off",
+    "editor.quickSuggestions": {
+        "other": false,
+        "comments": false,
+        "strings": false
+    },
+    "editor.parameterHints.enabled": false,
+    "editor.suggest.showSnippets": false,
+    "editor.acceptSuggestionOnCommitCharacter": false,
+    "editor.acceptSuggestionOnEnter": "off"
+}
