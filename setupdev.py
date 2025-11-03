@@ -34,10 +34,11 @@ def main():
     if not verify_env():
         sys.exit(1)
 
+    # TODO: Optional tear down
     # tear down any running containers
-    result = subprocess.run("docker ps -q", shell=True, check=True, stdout=subprocess.PIPE, text=True)
-    for cid in result.stdout.split():
-        run(f"docker rm -f {cid}")
+    # result = subprocess.run("docker ps -q", shell=True, check=True, stdout=subprocess.PIPE, text=True)
+    # for cid in result.stdout.split():
+    #     run(f"docker rm -f {cid}")
 
     run("docker compose -f onlydjango/dev_helpers/dev.docker-compose.yml up -d")
     run("uv run python manage.py makemigrations")
