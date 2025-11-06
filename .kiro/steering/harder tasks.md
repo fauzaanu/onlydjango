@@ -1,7 +1,18 @@
-# Harder tasks
+---
+inclusion: always
+---
 
-If you sence that you are constantly having indecision its time to stop. indecision is define by phrases such as "But wait . . ."
+# Task Delegation
 
-As a LLM there are some tasks that is better done by a human. Therefore if you face a situation where you need to delete an entire directory ask the human to do it. If you think a file you are editing is corrupted as the human to take a look.
+Some tasks are better handled by humans. Recognize your limitations and delegate appropriately.
 
-Rely on the human for complex tasks that you know you wouldnt be able to do very well.
+## Delegate to Human
+
+- **Directory deletion** - Ask the developer to delete entire directories
+- **File corruption concerns** - If a file appears corrupted, ask the developer to review
+- **Complex refactoring** - Large-scale architectural changes requiring judgment
+- **Ambiguous requirements** - When facing persistent indecision, stop and ask for clarification
+
+## Signs to Stop
+
+If you find yourself repeatedly second-guessing decisions or using phrases like "But wait..." or "However...", pause and ask the developer for guidance rather than continuing to iterate.

@@ -1,14 +1,26 @@
-# Running checks
+---
+inclusion: always
+---
 
-Here are some of the checks you should consider running after most code changes
+# Code Validation
 
-`uv run pyright`
+After making code changes, run these validation commands to ensure quality:
 
-`uv run ruff check --fix`
+```bash
+# Type checking
+uv run pyright
 
-`uv run python manage.py check`
+# Linting and auto-fix
+uv run ruff check --fix
 
-`uv run python manage.py validate_templates`
+# Django system checks
+uv run python manage.py check
 
-`uv run python manage.py test`
+# Template validation
+uv run python manage.py validate_templates
 
+# Test suite
+uv run python manage.py test
+```
+
+Run these checks selectively based on the scope of your changes. Not every change requires all checks.

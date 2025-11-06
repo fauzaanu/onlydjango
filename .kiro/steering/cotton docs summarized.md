@@ -1,123 +1,160 @@
 ---
 inclusion: fileMatch
-fileMatchPattern: "**/*.html"
+fileMatchPattern: '**/*.html'
 ---
 
-# Django cotton docs summary
+# Django Cotton Component System
 
-Before anything here are the most important facts you should remmember about django cotton
+## Critical Rules
 
-The templates have `<c-file-name />` but the file is named `cotton/file_name.html`. This is something we often forget.
+**NO PARTIALS** - Everything must be a Cotton component. Delete any `partials/` folders immediately.
 
-We have some tags we shouldnt use. mentioned in another guideline file.
+**NO base.html** - Use `layout.html` components instead per Cotton guidelines.
 
-We have a mechanism to pass dynamic data into components that prefixes ":" before a variable name
---
+**Naming Convention** - Component tags use hyphens, file paths use underscores:
+- Tag: `<c-file-name />` or `<c-app.application-card />`
+- File: `cotton/file_name.html` or `cotton/app/application_card.html`
 
-For each application we have a seperate cotton folder within the templates. We can make variations of components by converting the file name to a folder and including an index.html where the default component lives which is automatically picked up without the mention of index but we can then add print.html as another component inside the folder to be shown on a perhaps print only page
+## Prohibited Django Template Tags
 
-So:
-<c-file-name /> on regular pages and <c-file-name.print /> for the print page
+Do NOT use these tags - Cotton components replace their functionality:
+- `{% with %}` - Pass variables directly to components with `:variable`
+- `{% block %}` - Use named slots instead
+- `{% extends %}` - Use layout components instead
 
-the dirs look like:
-apps/cotton/report/file_name/index.html
-apps/cotton/report/file_name/print.html
+## Dynamic Attributes
 
----
-Here is the full summarized docs for you to refer about django cotton
+Prefix `:` to pass Python values instead of strings:
+```html
+<c-weather :temperature="temp_var" :today="today_obj" />
+<c-mycomp :items="['a','b','c']" :count="1" :flag="None" />
+<c-mycomp :data="{'key': 'value'}" />
+<c-select :options="form.field.choices" />
+```
 
-### Components
+## Component Variants
 
-* **`{{ slot }}`**
-  Default content:
+Convert a file to a folder with `index.html` as default:
+```
+cotton/report/file_name/index.html    → <c-report.file-name />
+cotton/report/file_name/print.html    → <c-report.file-name.print />
+```
 
-  ```html
-  <!-- cotton/box.html -->
-  <div class="box">{{ slot }}</div>
-  <!-- usage -->
-  <c-box>…</c-box>
-  ```
+## Core Syntax
 
-* **Attributes**
-  Pass strings or variables:
+**Default Slot**
+```html
+<!-- cotton/box.html -->
+<div class="box">{{ slot }}</div>
+<!-- usage -->
+<c-box>Content here</c-box>
+```
 
-  ```html
-  <c-weather temperature="23" unit="{{ unit }}" condition="windy"/>
-  ```
+**Named Slots**
+```html
+<c-card>
+  <c-slot name="header">Title</c-slot>
+  <c-slot name="body">Content</c-slot>
+</c-card>
+```
 
-* **Named Slots**
-  For HTML payloads:
+**Attributes & `{{ attrs }}`**
+```html
+<!-- component -->
+<input {{ attrs }} />
+<!-- usage -->
+<c-input name="email" placeholder="Enter email" required />
+<c-input :attrs="form_widget_attrs" />
+```
 
-  ```html
-  <c-weather-card day="Tue">
-    <c-slot name="icon">…</c-slot>
-    <c-slot name="label">…</c-slot>
-  </c-weather-card>
-  ```
+**Variables with `<c-vars />`**
+```html
+<c-vars type="success" size="md" />
+<div class="alert-{{ type }} size-{{ size }}">{{ slot }}</div>
+```
 
-* **Dynamic (`:`) Attributes**
-  Inject context values or types:
+**Boolean Attributes**
+```html
+<c-input required />  <!-- required=True -->
+```
 
-  ```html
-  <c-weather :today="today_obj"/>
-  <c-mycomp :items="['a','b']" :count="1" :flag="None"/>
-  ```
+**Dynamic Components**
+```html
+<c-component :is="icon_component_name" />
+```
 
-* **`{{ attrs }}` & `:attrs`**
-  Reflect all HTML attributes or merge a dict:
+**Context Isolation**
+```html
+<c-component only />  <!-- Limits context to passed props -->
+```
 
-  ```html
-  <!-- component -->
-  <input {{ attrs }}/>
-  <!-- usage -->
-  <c-input name="x" placeholder="…" readonly/>
-  <c-input :attrs="widget_attrs" required/>
-  ```
+## Alpine.js Integration
 
-* **`<c-vars />`**
-  Define defaults (excluded from `attrs`):
+- Access `x-data` via `{{ x_data }}`
+- Use `::` prefix to preserve `:` in attributes: `::x-bind:value`
 
-  ```html
-  <c-vars type="success"/>
-  <div class="{% if type=='success'%}…">{ slot }</div>
-  ```
+## Component Architecture (Kandy Pattern)
 
-* **Boolean Attributes**
-  Presence = `True`:
+Structure for stateful components with loading states:
 
-  ```html
-  <c-input name="tel" required/>
-  ```
+```
+templates/cotton/{app}/{component_name}/
+├── layout.html          # Static skeleton/wrapper
+├── index.html          # Main component content
+└── state/              # Dynamic state components
+    ├── loading.html    # Loading state UI
+    ├── error.html      # Error state UI (optional)
+    └── success.html    # Success state UI (optional)
+```
 
-* **Dynamic Components**
-  Render by name:
+**Layout Component** - Provides container for HTMX targeting:
+```html
+<div id="{component}-container">
+    <c-ui.components.form-card :heading="heading">
+        <div kandy-loading>
+            <c-{app}.{component}.state.loading/>
+        </div>
+        
+        <div kandy-content class="w-full">
+            {{ slot }}
+        </div>
+    </c-ui.components.form-card>
+</div>
+```
 
-  ```html
-  <c-component is="icons.{{ icon_name }}"/>
-  <c-component :is="comp_var"/>
-  ```
+**Index Component** - Main logic, targets its own container:
+```html
+<c-{app}.{component}.layout>
+    <form hx-post="{% url 'app:endpoint' %}" hx-target="#{component}-container">
+        <!-- Component content -->
+    </form>
+</c-{app}.{component}.layout>
+```
 
-* **Context Isolation**
-  `only` attribute limits context to passed props.
+**Loading State** - Shows spinner with message:
+```html
+<c-vars loading_text="Processing your request..." />
 
-* **Alpine.js**
+<div class="flex items-center justify-center">
+    <div class="flex items-center space-x-3 text-gray-300">
+        <i class="fas fa-spinner fa-spin text-lg"></i>
+        <span class="text-sm">{{ loading_text }}</span>
+    </div>
+</div>
+```
 
-  * Access `x-data` via `{{ x_data }}`
-  * Use `::` to preserve `:` in `{{ attrs }}` (e.g. `::x-bind`)
+**Kandy Attributes** for state management:
+- `kandy-loading`: Elements that show during loading
+- `kandy-content`: Elements that hide during loading
 
----
-
-### Template Layout
+## Template Structure
 
 ```
 templates/
-│
-├─ cotton/<app>/       ← reusable components
+├─ cotton/<app>/      # Reusable components
 │   └─ component.html
-│
-└─ <app>/             ← full-page templates
+└─ <app>/            # Full-page templates
     └─ page.html
 ```
 
-* **Naming**: `<c-app.component>` (dot notation).
-* **Pages** import from `templates/cotton`; components don’t import pages.
+Components use dot notation: `<c-app.component-name />`

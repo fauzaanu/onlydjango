@@ -1,6 +1,5 @@
 ---
-inclusion: fileMatch
-fileMatchPattern: "{**/models.py,**/views.py}"
+inclusion: always
 ---
 
 # N+1 Queries and avoiding them
