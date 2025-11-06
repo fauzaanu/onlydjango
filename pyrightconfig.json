@@ -1,0 +1,21 @@
+{
+  "include": [
+    "apps",
+    "llm_wrapper",
+    "onlydjango"
+  ],
+  "exclude": [
+    "**/node_modules",
+    "**/__pycache__",
+    "**/migrations",
+    ".venv"
+  ],
+  "typeCheckingMode": "basic",
+  "reportMissingImports": true,
+  "reportMissingTypeStubs": false,
+  "reportAttributeAccessIssue": false,
+  "reportGeneralTypeIssues": false,
+  "reportOptionalMemberAccess": false,
+  "pythonVersion": "3.12",
+  "pythonPlatform": "Windows"
+}
