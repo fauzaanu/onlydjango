@@ -27,6 +27,7 @@ THIRD_PARTY_APPS = [
     "huey.contrib.djhuey",
     'django_cotton',
     "debug_toolbar",
+    "django_extensions",
 ]
 
 DJANGO_APPS = [
