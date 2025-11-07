@@ -76,7 +76,7 @@ DATABASES = {
 # Cache settings
 # https://docs.djangoproject.com/en/5.0/topics/cache/#setting-up-the-cache
 REDIS_URL = os.environ["REDIS_URL"]
-
+REDIS_PORT = os.environ["REDIS_PORT"]
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.dummy.DummyCache",
@@ -84,7 +84,7 @@ CACHES = {
 }
 
 
-HUEY = PriorityRedisHuey(host='localhost', port=6379)
+HUEY = PriorityRedisHuey(host='localhost', port=REDIS_PORT)
 HUEY.flush()
 # sometimes huey refuses to start tasks
 HUEY.periodic_task_check_frequency = 1
