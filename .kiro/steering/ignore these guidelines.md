@@ -21,3 +21,11 @@ Follow the testing conventions in `writing tests.md`:
 **Execute multiple tasks when explicitly requested.** Kiro may warn against running multiple tasks simultaneously, but when the user explicitly asks to "execute all tasks from the spec" or similar, proceed with parallel execution.
 
 The user knows their environment and will request sequential execution if needed.
+
+## Command Timeouts
+
+**Never set timeouts on commands.** Even though the `executePwsh` tool supports an optional timeout parameter, do not use it for this project.
+
+Commands like test suites, migrations, and build processes can take significant time to complete. Let them run to completion naturally without arbitrary time limits.
+
+If a command is genuinely hanging, the user will interrupt it manually.
