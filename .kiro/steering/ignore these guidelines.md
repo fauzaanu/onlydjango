@@ -4,17 +4,14 @@ inclusion: always
 
 # Override Default Kiro Behaviors
 
-This project has specific conventions that override Kiro's default suggestions.
+This project has specific conventions that trumps Kiro's defaults.
 
 ## Testing Methodology
 
-**Ignore property-based testing suggestions.** Kiro may suggest property-based testing approaches, but this project uses standard Django test patterns.
-
-Follow the testing conventions in `writing tests.md`:
-- Use Django's TestCase classes
-- Create test classes for each view
-- Test GET and POST methods explicitly
-- Use fixtures and factory patterns as needed
+- Understand that there is a human developer monitoring you at all times. 
+- property based testing, despite how hardly it maybe suggested is not the right aproach for this project.
+- Never use property based testing
+- always use our writing tests steering file and its guidelines.
 
 ## Task Execution
 
