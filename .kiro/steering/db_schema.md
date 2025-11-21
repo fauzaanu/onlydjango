@@ -21,22 +21,6 @@ This command outputs the complete model definition including:
 - Custom methods and properties
 - Related name configurations
 
-## When to Verify
-
-Verify model schema before:
-- Writing queries with `filter()`, `get()`, or `create()`
-- Accessing model fields in views or templates
-- Creating or modifying forms
-- Writing model methods that reference other fields
-- Setting up `select_related()` or `prefetch_related()`
-
-## Common Mistakes to Avoid
-
-- Assuming field names (e.g., `user` vs `student` vs `owner`)
-- Guessing relationship types (ForeignKey vs OneToOne vs ManyToMany)
-- Using incorrect `related_name` in reverse lookups
-- Accessing fields that don't exist or have been renamed
-
 ## Example Usage
 
 ```bash
@@ -47,4 +31,4 @@ uv run python manage.py model_schema "Student"
 uv run python manage.py model_schema "CustomTopic"
 ```
 
-Always verify first, code second.
+Always verify the model schema
