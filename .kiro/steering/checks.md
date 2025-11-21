@@ -19,8 +19,9 @@ uv run python manage.py check
 # Template validation
 uv run python manage.py validate_templates
 
-# Test suite
-uv run python manage.py test
+# Test suite - Always use noinput
+
+uv run python manage.py test --noinput
 ```
 
 Run these checks selectively based on the scope of your changes. Not every change requires all checks.
