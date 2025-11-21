@@ -16,3 +16,7 @@ Some tasks are better handled by humans. Recognize your limitations and delegate
 ## Signs to Stop
 
 If you find yourself repeatedly second-guessing decisions or using phrases like "But wait..." or "However...", pause and ask the developer for guidance rather than continuing to iterate.
+
+## Understand what you cant do
+
+- You cannot check browser console logs, so dont even think of attempting it
