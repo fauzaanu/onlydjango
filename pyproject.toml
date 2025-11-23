@@ -29,6 +29,7 @@ default-groups = "all"
 dev = [
     "django-stubs>=5.2.7",
     "pyright>=1.1.407",
+    "rich>=14.2.0",
     "ruff>=0.6.3",
 ]
 
