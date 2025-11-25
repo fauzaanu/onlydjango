@@ -1,0 +1,32 @@
+# Steering Protocol
+
+This replicates Kiro IDE's steering mechanism for IDEs without native support (Cursor, Windsurf, etc.).
+
+## How It Works
+
+Steering files in `.kiro/steering/` have two inclusion modes via front matter:
+
+1. **always** (default) - General guidelines, included when no path specified
+2. **fileMatch** - File-specific guidelines, included when path matches glob pattern
+
+```yaml
+---
+inclusion: fileMatch
+fileMatchPattern: "**/*.html"
+---
+```
+
+## Commands
+
+```bash
+uv run python get_steering.py              # General guidelines (conversation start)
+uv run python get_steering.py --default    # Same as above
+uv run python get_steering.py <path>       # File-specific guidelines before editing
+```
+
+## Required Actions
+
+1. **Conversation start**: Run `uv run python get_steering.py`
+2. **Before any file edit**: Run `uv run python get_steering.py <filepath>`
+
+No exceptions.
