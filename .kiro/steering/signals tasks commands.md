@@ -1,6 +1,6 @@
 ---
 inclusion: fileMatch
-fileMatchPattern: "**/signals.py"
+fileMatchPattern: "{**/signals.py,**/tasks.py}"
 ---
 
 # Signals, tasks, commands and the messages framework
