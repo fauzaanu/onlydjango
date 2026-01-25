@@ -1,5 +1,8 @@
 {
   "dependencies": {
     "tailwindcss": "^3.4.14"
+  },
+    "scripts": {
+    "build:css": "npx tailwindcss -i ./onlydjango/input.css -o ./onlydjango/static/css/style.css --minify"
   }
 }
