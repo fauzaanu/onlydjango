@@ -1,0 +1,9 @@
+---
+description: Skip admin.py unless explicitly requested
+globs: "**/admin.py"
+alwaysApply: false
+---
+
+# Django admin panel
+
+Unless explicitly asked to do so, `admin.py` is not a file we will be writing any code in.

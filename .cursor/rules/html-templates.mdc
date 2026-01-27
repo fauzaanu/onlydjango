@@ -1,0 +1,69 @@
+---
+description: Django Cotton component system and HTML template conventions
+globs: "**/*.html"
+alwaysApply: false
+---
+
+# Django Cotton Component System
+
+## Creating Components
+
+**ALWAYS use the management command:**
+```bash
+uv run python manage.py create_cotton_component <app_name> <component-name>
+```
+
+The command automatically:
+- Converts hyphens to underscores in filenames
+- Creates the file in the correct location
+- Shows you the correct template tag usage
+
+## Critical Rules
+
+**NO PARTIALS** - Everything must be a Cotton component.
+
+**NO base.html** - Use `layout.html` components instead.
+
+**Naming Convention** - Tags use hyphens, files use underscores:
+- Tag: `<c-podcast-status />`
+- File: `podcast_status.html`
+
+## Prohibited Tags
+
+- `{% with %}` - Use `:variable` instead
+- `{% block %}` - Use named slots
+- `{% extends %}` - Use layout components
+
+## Key Syntax
+
+**Variables:** `<c-vars name="" />` then use `{{ name }}`
+
+**Dynamic values:** `:variable="python_value"`
+
+**Slots:** `{{ slot }}` for default, `<c-slot name="header">` for named
+
+**Attributes:** `{{ attrs }}` passes through all attributes
+
+## Variants
+
+Folder structure for component variants:
+```
+cotton/app/component_name/index.html  → <c-app.component-name />
+cotton/app/component_name/print.html  → <c-app.component-name.print />
+```
+
+## UI Code Guidelines
+
+- Djangos for loops are great in making conditional UI - so dont use alpinejs for something django templates can perfectly handle (unless their is a client side logic)
+- create a custom templatetag instead of writing multiple if conditions perhaps when defining some conditional colors of the UI
+- If you have a large section of code you are writing a {% comment %} for, you probably need to make it a seperate component using `django-cotton`
+
+> TLDR: make use of custom templatetags as much as possible with the aim of reducing the loc in UI
+
+## Core Principle
+
+**Never truncate text. The purpose of this application is to deliver information. If information is not fully visible, the purpose is not fulfilled.**
+
+## HTML Background
+
+Always use the color maroon in the background of all html files.

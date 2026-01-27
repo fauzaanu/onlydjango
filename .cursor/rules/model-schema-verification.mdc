@@ -1,0 +1,35 @@
+---
+description: Always verify model schema before writing ORM code
+alwaysApply: true
+---
+
+# Model Schema Verification
+
+## Critical Rule
+
+**Never assume model field names, types, or relationships.** Always verify the actual model definition before writing ORM code.
+
+## Verification Command
+
+```bash
+uv run python manage.py model_schema "ModelName"
+```
+
+This command outputs the complete model definition including:
+- All field names and types
+- Foreign key relationships
+- Many-to-many relationships
+- Custom methods and properties
+- Related name configurations
+
+## Example Usage
+
+```bash
+# Check Student model fields
+uv run python manage.py model_schema "Student"
+
+# Check CustomTopic relationships
+uv run python manage.py model_schema "CustomTopic"
+```
+
+Always verify the model schema
