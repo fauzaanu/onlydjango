@@ -38,16 +38,15 @@
 
     {{ extra_head }}
 </head>
-<body class="min-h-screen bg-[maroon] text-zinc-100">
-<div class="mx-auto flex min-h-screen w-full max-w-7xl flex-col">
+<body class="min-h-screen bg-zinc-50 text-zinc-900">
+<div class="flex min-h-screen w-full flex-col">
     <c-navbar/>
 
-    <main class="flex flex-1 flex-col gap-20">
+    <main class="mx-auto flex w-full max-w-7xl flex-1 flex-col">
         {{ slot }}
     </main>
 
     <c-footer/>
-    <!-- Add additional custom components here -->
 </div>
 </body>
 </html>

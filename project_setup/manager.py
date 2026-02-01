@@ -25,6 +25,7 @@ class SetupOptions:
     configure_ports: bool | None = None
     redis_port: int | None = None
     postgres_port: int | None = None
+    dev_server_port: int | None = None
     configure_docker_compose: bool | None = None
     install_npm: bool | None = None
     start_docker_compose: bool | None = None
@@ -108,13 +109,14 @@ class ProjectSetupManager:
             interactive=interactive,
         )
         if configure_ports:
-            redis_port, postgres_port = self._resolve_ports(options)
+            redis_port, postgres_port, dev_server_port = self._resolve_ports(options)
             console.print(
                 "  [green]✓[/green] Redis: [yellow]"
-                f"{redis_port}[/yellow] | PostgreSQL: [yellow]{postgres_port}[/yellow]"
+                f"{redis_port}[/yellow] | PostgreSQL: [yellow]{postgres_port}[/yellow] "
+                f"| Dev Server: [yellow]{dev_server_port}[/yellow]"
             )
 
-            self.config_manager.update_env_ports(redis_port, postgres_port)
+            self.config_manager.update_env_ports(redis_port, postgres_port, dev_server_port)
             self.config_manager.update_docker_compose_ports(redis_port, postgres_port)
         else:
             console.print("[dim]  Skipped[/dim]")
@@ -174,19 +176,23 @@ class ProjectSetupManager:
             return Confirm.ask(prompt, default=default)
         return default
 
-    def _resolve_ports(self, options: SetupOptions) -> tuple[int, int]:
-        """Resolve Redis and Postgres ports."""
+    def _resolve_ports(self, options: SetupOptions) -> tuple[int, int, int]:
+        """Resolve Redis, Postgres, and dev server ports."""
         redis_port = options.redis_port or self.port_manager.find_free_port(6379)
         postgres_port = options.postgres_port or self.port_manager.find_free_port(5432)
+        dev_server_port = options.dev_server_port or self.port_manager.find_free_port(8000)
 
-        if redis_port == postgres_port:
-            console.print(
-                "[yellow]⚠[/yellow] Redis and PostgreSQL ports are the same; "
-                "searching for a new PostgreSQL port."
-            )
+        # Ensure all ports are unique
+        used_ports = {redis_port}
+        
+        if postgres_port in used_ports:
             postgres_port = self.port_manager.find_free_port(postgres_port + 1)
+        used_ports.add(postgres_port)
+        
+        if dev_server_port in used_ports:
+            dev_server_port = self.port_manager.find_free_port(dev_server_port + 1)
 
-        return redis_port, postgres_port
+        return redis_port, postgres_port, dev_server_port
 
     def _run_post_setup_actions(self, options: SetupOptions, *, interactive: bool) -> None:
         """Run post-setup actions like starting Docker, migrations, etc."""

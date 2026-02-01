@@ -1,5 +1,6 @@
 """Configuration file management utilities."""
 
+import re
 from pathlib import Path
 from rich.console import Console
 
@@ -47,7 +48,7 @@ class ConfigManager:
         console.print("[green]✓[/green] Created .env from env.sample")
         return True
 
-    def update_env_ports(self, redis_port: int, postgres_port: int) -> None:
+    def update_env_ports(self, redis_port: int, postgres_port: int, dev_server_port: int | None = None) -> None:
         """Update .env file with available ports."""
         env_path = self.project_root / ".env"
         
@@ -59,6 +60,7 @@ class ConfigManager:
         lines = content.split("\n")
 
         updated_lines = []
+        dev_port_found = False
         for line in lines:
             if line.startswith("REDIS_URL="):
                 updated_lines.append(f"REDIS_URL=redis://localhost:{redis_port}")
@@ -68,8 +70,18 @@ class ConfigManager:
                 updated_lines.append(f"PGPORT={postgres_port}")
             elif line.startswith("DJANGO_SETTINGS_MODULE="):
                 updated_lines.append("DJANGO_SETTINGS_MODULE=onlydjango.settings.dev")
+            elif line.startswith("DJANGO_DEV_PORT="):
+                dev_port_found = True
+                if dev_server_port:
+                    updated_lines.append(f"DJANGO_DEV_PORT={dev_server_port}")
+                else:
+                    updated_lines.append(line)
             else:
                 updated_lines.append(line)
+
+        # Add DJANGO_DEV_PORT if not found and port is specified
+        if dev_server_port and not dev_port_found:
+            updated_lines.append(f"DJANGO_DEV_PORT={dev_server_port}")
 
         env_path.write_text("\n".join(updated_lines), encoding="utf-8")
         console.print("[green]✓[/green] Updated .env with ports")
@@ -84,18 +96,14 @@ class ConfigManager:
             return
 
         content = docker_compose_path.read_text(encoding="utf-8")
-        lines = content.split("\n")
+        
+        # Replace redis port mapping (any host port -> 6379)
+        content = re.sub(r'"(\d+):6379"', f'"{redis_port}:6379"', content)
+        
+        # Replace postgres port mapping (any host port -> 5432)
+        content = re.sub(r'"(\d+):5432"', f'"{postgres_port}:5432"', content)
 
-        updated_lines = []
-        for line in lines:
-            if '"6379:6379"' in line:
-                updated_lines.append(line.replace('"6379:6379"', f'"{redis_port}:6379"'))
-            elif '"5432:5432"' in line:
-                updated_lines.append(line.replace('"5432:5432"', f'"{postgres_port}:5432"'))
-            else:
-                updated_lines.append(line)
-
-        docker_compose_path.write_text("\n".join(updated_lines), encoding="utf-8")
+        docker_compose_path.write_text(content, encoding="utf-8")
         console.print("[green]✓[/green] Updated docker-compose ports")
 
     def add_docker_compose_project_name(self, project_name: str) -> None:

@@ -1,28 +1,22 @@
+"""Development settings."""
+
 from os import path
-from .base import *
+
 from huey import PriorityRedisHuey
 
-DEBUG = True
+from .base import *
+from .constants import dev as env
+
+DEBUG = env.DEBUG
+SECRET_KEY = env.SECRET_KEY
+ALLOWED_HOSTS = env.ALLOWED_HOSTS
 CSRF_TRUSTED_ORIGINS = ["https://onlydjango.com", "https://www.onlydjango.com"]
-ALLOWED_HOSTS = [
-    "*",
-]
-SECRET_KEY = "1234"
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
-
-# Use any S3 Compatible storage backend for static and media files
-# AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
-# AWS_S3_ENDPOINT_URL = os.getenv("AWS_S3_ENDPOINT_URL")
-# AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
-# AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
-# AWS_S3_SIGNATURE_VERSION = "s3v4"
-# AWS_S3_CUSTOM_DOMAIN = "cdn.onlydjango.com"
-os.environ.setdefault('DEV_STORAGE', 'local') # use `S3` for S3
-
-if os.environ.get("DEV_STORAGE") == "local":
-    # No Else needed as base contains S3 settings configured
+# =============================================================================
+# STORAGE
+# =============================================================================
+# Local storage for dev (set DEV_STORAGE=S3 in .env to use S3 instead)
+if env.DEV_STORAGE != "S3":
     STORAGES = {
         "default": {
             "BACKEND": "django.core.files.storage.FileSystemStorage",
@@ -31,64 +25,65 @@ if os.environ.get("DEV_STORAGE") == "local":
         "staticfiles": {
             "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
             "OPTIONS": {
-                "location": path.join(BASE_DIR, "staticfiles"),  # noqa
+                "location": path.join(BASE_DIR, "staticfiles"),
                 "base_url": "/static/",
             },
         },
-
         "media": {
             "BACKEND": "django.core.files.storage.FileSystemStorage",
             "OPTIONS": {
-                "location": path.join(BASE_DIR, "media"),  # noqa
+                "location": path.join(BASE_DIR, "media"),
                 "base_url": "/media/",
             },
         },
     }
 
-STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # noqa
+STATIC_URL = "static/"
+STATIC_ROOT = path.join(BASE_DIR, "staticfiles")
 STATICFILES_DIRS = [
-    os.path.join(PROJECT_DIR, 'static'),  # noqa
+    path.join(PROJECT_DIR, "static"),
 ]
 
-# Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-# POSTGRES
-# noinspection DuplicatedCode
+# =============================================================================
+# DATABASE
+# =============================================================================
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ["PGDATABASE"],
-        "USER": os.environ["PGUSER"],
-        "PASSWORD": os.environ["PGPASSWORD"],
-        "HOST": os.environ["PGHOST"],
-        "PORT": os.environ["PGPORT"],
+        "NAME": env.PGDATABASE,
+        "USER": env.PGUSER,
+        "PASSWORD": env.PGPASSWORD,
+        "HOST": env.PGHOST,
+        "PORT": env.PGPORT,
         "OPTIONS": {
             "pool": {
-                "min_size": 2,
-                "max_size": 4,
-                "timeout": 10,
+                "min_size": env.DB_POOL_MIN_SIZE,
+                "max_size": env.DB_POOL_MAX_SIZE,
+                "timeout": env.DB_POOL_TIMEOUT,
             }
         },
     }
 }
 
-# Cache settings
-# https://docs.djangoproject.com/en/5.0/topics/cache/#setting-up-the-cache
-REDIS_URL = os.environ["REDIS_URL"]
-REDIS_PORT = os.environ["REDIS_PORT"]
+# =============================================================================
+# CACHE
+# =============================================================================
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.dummy.DummyCache",
     }
 }
 
-
-HUEY = PriorityRedisHuey(host='localhost', port=REDIS_PORT)
+# =============================================================================
+# HUEY (Background Tasks)
+# =============================================================================
+HUEY = PriorityRedisHuey(url=env.REDIS_URL)
 HUEY.flush()
-# sometimes huey refuses to start tasks
 HUEY.periodic_task_check_frequency = 1
 
+# =============================================================================
+# LOGGING
+# =============================================================================
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -102,5 +97,4 @@ LOGGING = {
             "class": "logging.StreamHandler",
         },
     },
-
 }

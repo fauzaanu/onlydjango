@@ -1,30 +1,40 @@
+"""Base settings shared between dev and prod."""
+
 import os
 from pathlib import Path
+
 from dotenv import load_dotenv
 
 load_dotenv(override=True)
+
+# Import constants based on environment
+_settings_module = os.environ.get("DJANGO_SETTINGS_MODULE", "onlydjango.settings.dev")
+if "prod" in _settings_module:
+    from .constants import prod as env
+else:
+    from .constants import dev as env
+
 PROJECT_DIR = Path(__file__).resolve().parent.parent
 BASE_DIR = PROJECT_DIR.parent
 WSGI_APPLICATION = "onlydjango.wsgi.application"
 
+# =============================================================================
+# INSTALLED APPS
+# =============================================================================
 FIRST_PARTY_APPS = [
-    # the onlydjango folder is actually your project folder
-    # However it is added here so that django will pickup the management commands from this directory
-    # The management command improves the manage.py startapp command to automatically add apps inside this list
-    'onlydjango',
-    # Your django apps go below
+    "onlydjango",
+    "apps.core",
 ]
 
 ALL_AUTH_APPS = [
     "allauth",
     "allauth.account",
-    "allauth.socialaccount",
 ]
 
 THIRD_PARTY_APPS = [
     "django_browser_reload",
     "huey.contrib.djhuey",
-    'django_cotton',
+    "django_cotton",
     "debug_toolbar",
     "django_extensions",
 ]
@@ -41,9 +51,11 @@ DJANGO_APPS = [
     "django.contrib.sitemaps",
 ]
 
-INSTALLED_APPS = (DJANGO_APPS + ALL_AUTH_APPS + THIRD_PARTY_APPS +
-                  FIRST_PARTY_APPS)
+INSTALLED_APPS = DJANGO_APPS + ALL_AUTH_APPS + THIRD_PARTY_APPS + FIRST_PARTY_APPS
 
+# =============================================================================
+# MIDDLEWARE
+# =============================================================================
 SITE_ID = 1
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -51,36 +63,29 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    # "django.contrib.auth.middleware.LoginRequiredMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
-    # Debug toolbar
     "debug_toolbar.middleware.DebugToolbarMiddleware",
-    # all-auth
     "allauth.account.middleware.AccountMiddleware",
-    # Browser reload
     "django_browser_reload.middleware.BrowserReloadMiddleware",
-
 ]
 
 AUTHENTICATION_BACKENDS = [
-    "django.contrib.auth.backends.ModelBackend",  # Default Django authentication
-    "allauth.account.auth_backends.AuthenticationBackend",  # Django Allauth
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
-INTERNAL_IPS = [
-    "127.0.0.1",
-]
+INTERNAL_IPS = ["127.0.0.1"]
 
 ROOT_URLCONF = "onlydjango.urls"
 
+# =============================================================================
+# TEMPLATES
+# =============================================================================
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [
-            os.path.join(PROJECT_DIR, "templates"),
-        ],
+        "DIRS": [PROJECT_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -94,57 +99,56 @@ TEMPLATES = [
     },
 ]
 
-# Password validation
-# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
-
+# =============================================================================
+# PASSWORD VALIDATION
+# =============================================================================
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
-    },
+    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
-# Internationalization
-# https://docs.djangoproject.com/en/4.2/topics/i18n/
-
+# =============================================================================
+# INTERNATIONALIZATION
+# =============================================================================
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "Indian/Maldives"
 USE_I18N = False
 USE_TZ = True
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
+# =============================================================================
+# DEFAULT PRIMARY KEY
+# =============================================================================
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# All-auth settings
+# =============================================================================
+# ALLAUTH
+# =============================================================================
 ACCOUNT_LOGIN_METHODS = {"email"}
-ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
+ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*"]
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_EMAIL_VERIFICATION = "none"
 ACCOUNT_SIGNUP_REDIRECT_URL = "/"
 LOGIN_REDIRECT_URL = "/"
-SOCIALACCOUNT_EMAIL_AUTHENTICATION = True
-SOCIALACCOUNT_STORE_TOKENS = True
-SOCIALACCOUNT_ONLY = False
 
-###### STORAGES ######
-AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
-AWS_S3_ENDPOINT_URL = os.getenv("AWS_S3_ENDPOINT_URL")
-AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
-AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
+# =============================================================================
+# CUSTOM USER MODEL
+# =============================================================================
+AUTH_USER_MODEL = "core.User"
+
+# =============================================================================
+# AWS S3 STORAGE (from constants)
+# =============================================================================
+AWS_STORAGE_BUCKET_NAME = env.AWS_STORAGE_BUCKET_NAME
+AWS_S3_ENDPOINT_URL = env.AWS_S3_ENDPOINT_URL
+AWS_ACCESS_KEY_ID = env.AWS_ACCESS_KEY_ID
+AWS_SECRET_ACCESS_KEY = env.AWS_SECRET_ACCESS_KEY
 AWS_S3_SIGNATURE_VERSION = "s3v4"
 AWS_S3_FILE_OVERWRITE = False
 AWS_QUERYSTRING_AUTH = True
 AWS_QUERYSTRING_EXPIRE = 3600
-AWS_S3_CUSTOM_DOMAIN = os.getenv("AWS_S3_CUSTOM_DOMAIN")
+AWS_S3_CUSTOM_DOMAIN = env.AWS_S3_CUSTOM_DOMAIN
 
 STORAGES = {
     "default": {
@@ -153,49 +157,28 @@ STORAGES = {
     "staticfiles": {
         "BACKEND": "storages.backends.s3boto3.S3StaticStorage",
         "OPTIONS": {
-            "custom_domain": os.getenv("AWS_S3_CUSTOM_DOMAIN"),
+            "custom_domain": env.AWS_S3_CUSTOM_DOMAIN,
         },
     },
 }
 
-
 STATIC_URL = "static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-STATICFILES_DIRS = [
-    os.path.join(PROJECT_DIR, "static"), #noqa
-]
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_DIRS = [PROJECT_DIR / "static"]
 
-
+# =============================================================================
+# SITE INFO (from constants)
+# =============================================================================
 SITE_VERSION = "0.0.1"
-SITE_NAME = os.getenv("SITE_NAME")
-SITE_AUTHOR=""
-SITE_KEYWORDS=""
-SITE_DESCRIPTION=""
-OG_TYPE=""
-OG_TITLE=""
-OG_DESCRIPTION=""
-OG_IMAGE=""
-TWITTER_CARD=""
-TWITTER_TITLE=""
-TWITTER_DESCRIPTION=""
-TWITTER_IMAGE=""
-# [
-#   {
-#     "AllowedOrigins": [
-#       "*"
-#     ],
-#     "AllowedMethods": [
-#       "GET",
-#       "HEAD"
-#     ],
-#     "AllowedHeaders": [
-#       "*"
-#     ],
-#     "ExposeHeaders": [
-#       "Content-Length",
-#       "Content-Type",
-#       "Access-Control-Allow-Origin"
-#     ],
-#     "MaxAgeSeconds": 1
-#   }
-# ]
+SITE_NAME = env.SITE_NAME
+SITE_AUTHOR = ""
+SITE_KEYWORDS = ""
+SITE_DESCRIPTION = ""
+OG_TYPE = ""
+OG_TITLE = ""
+OG_DESCRIPTION = ""
+OG_IMAGE = ""
+TWITTER_CARD = ""
+TWITTER_TITLE = ""
+TWITTER_DESCRIPTION = ""
+TWITTER_IMAGE = ""

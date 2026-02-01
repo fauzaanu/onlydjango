@@ -52,6 +52,11 @@ def main() -> None:
         help="PostgreSQL port to write into .env and docker-compose.",
     )
     parser.add_argument(
+        "--dev-server-port",
+        type=int,
+        help="Django dev server port to write into .env.",
+    )
+    parser.add_argument(
         "--configure-docker-compose",
         **bool_opt,
         help="Add project name to docker-compose file (default: true).",
@@ -86,6 +91,7 @@ def main() -> None:
         configure_ports=args.configure_ports,
         redis_port=args.redis_port,
         postgres_port=args.postgres_port,
+        dev_server_port=args.dev_server_port,
         configure_docker_compose=args.configure_docker_compose,
         install_npm=args.install_npm,
         start_docker_compose=args.start_docker_compose,

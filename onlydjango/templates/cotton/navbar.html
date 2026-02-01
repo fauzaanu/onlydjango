@@ -1,4 +1,15 @@
-<div>
-    <!-- REPLACE WITH NAVBAR-->
-    onlydjango/templates/cotton/navbar.html
-</div>
+<nav class="border-b border-zinc-200 bg-white">
+    <div class="mx-auto flex h-14 max-w-7xl items-center justify-between px-4">
+        <a href="/" class="text-xl font-semibold tracking-tight text-zinc-900">
+            ONLYDJANGO
+        </a>
+        <div class="flex items-center gap-4">
+            <a href="{% url 'account_login' %}" class="rounded-lg bg-sky-500 px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-sky-600">
+                Log in
+            </a>
+            <a href="{% url 'account_signup' %}" class="text-sm font-semibold text-sky-500 transition hover:text-sky-600">
+                Sign up
+            </a>
+        </div>
+    </div>
+</nav>

@@ -1,8 +1,10 @@
+name: onlydjango
+
 services:
   redis:
     image: redis:latest
     ports:
-      - "6379:6379"
+      - "6393:6379"
 
   postgres:
     image: postgres:latest
@@ -11,4 +13,4 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: admin
     ports:
-      - "5432:5432"
+      - "5446:5432"

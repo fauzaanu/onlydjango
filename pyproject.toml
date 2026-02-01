@@ -1,5 +1,5 @@
 [project]
-name = "onlydjango"
+name = "testproject"
 version = "0.2.0"
 description = "Add your description here"
 readme = "README.md"
@@ -21,6 +21,7 @@ dependencies = [
     "requests>=2.32.4",
     "django-solo>=2.4.0",
     "django-extensions>=4.1",
+    "pillow>=12.1.0",
 ]
 [tool.uv]
 default-groups = "all"
