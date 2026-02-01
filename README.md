@@ -6,7 +6,7 @@ front-end workflow and batteries-included infrastructure. It ships with:
 - Django 5.2, Django Allauth (Telegram provider), and Django Cotton
 - PostgreSQL + Redis + Huey background tasks
 - Tailwind CSS build pipeline
-- HTMX + Alpine.js + a Kandy loading system
+- HTMX + Alpine.js
 - S3-ready storage backends and deployment scaffolding
 - Custom management commands for app scaffolding and component validation
 
@@ -125,7 +125,7 @@ Key directories and their roles:
 - onlydjango/                  Django project + shared templates/static assets
   - settings/                  base.py, dev.py, prod.py
   - templates/cotton/          Base Cotton components (layout, navbar, footer)
-  - static/                    Alpine, HTMX, Kandy, Font Awesome, etc
+  - static/                    Alpine, HTMX, Font Awesome, etc
   - storage/                   S3 storage backends
   - management/commands/       Custom management commands
 - project_setup/               One-time project bootstrapping module
@@ -167,10 +167,6 @@ Cotton components:
   - File paths use underscores (example: `podcast_status.html`)
   - Tags use hyphens (example: `<c-app.podcast-status />`)
 
-Kandy loading system:
-- `onlydjango/static/js/kandy.js`
-- Toggle loading states using `kandy-loading` and `kandy-content` attributes.
-
 ## Custom management commands
 
 `startapp`:
@@ -185,12 +181,6 @@ templates, templatetags, tests/, and signals.py.
 uv run python manage.py create_cotton_component app component-name
 ```
 Creates a component file with correct underscore naming and prints tag usage.
-
-`kandy`:
-```bash
-uv run python manage.py kandy --app myapp --component my_component --htmx
-```
-Generates a Cotton component with loading state scaffolding (and optional HTMX).
 
 `validate_components`:
 ```bash

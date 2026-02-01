@@ -34,15 +34,7 @@
     <!-- Alpine.js -->
     <script defer src="{% static 'js/alpine.min.js' %}"></script>
     <script defer src="{% static 'js/htmx.min.js' %}"></script>
-    <script defer src="{% static 'js/kandy.js' %}"></script>
     {#    <script defer src="{% static 'js/htmx2.min.js' %}"></script>#}
-
-
-    <style>
-        body:not(.js-loaded) [kandy-loading] {
-            display: none !important;
-        }
-    </style>
 
     {{ extra_head }}
 </head>
