@@ -19,9 +19,9 @@ uv run python manage.py check
 # Template validation
 uv run python manage.py validate_templates
 
-# Test suite - Always use noinput
+# Test suite - Uses SQLite for speed, always use noinput
 
-uv run python manage.py test --noinput
+uv run python manage.py test --settings=onlydjango.settings.tests --noinput
 
 # LLM Health check, helps you in the future if everything is modularized well with less loc per file.
 uv run python llm_health_check.py
