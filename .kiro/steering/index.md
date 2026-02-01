@@ -11,7 +11,6 @@ This project uses specific conventions and patterns. Reference the appropriate s
 **Working with HTML templates?** → Read `cotton docs summarized.md`
 - Cotton component syntax and architecture
 - Naming conventions (hyphens vs underscores)
-- Kandy pattern for stateful components
 - Prohibited template tags (no `{% extends %}`, `{% block %}`, `{% with %}`)
 - No partials, no base.html
 
