@@ -78,13 +78,8 @@ CACHES = {
 # HUEY (Background Tasks)
 # =============================================================================
 HUEY = PriorityRedisHuey(url=env.REDIS_URL)
+HUEY.flush()
 HUEY.periodic_task_check_frequency = 1
-
-# Flush Huey queue on startup (only if Redis is available)
-try:
-    HUEY.flush()
-except Exception:
-    pass  # Redis not running, skip flush
 
 # =============================================================================
 # LOGGING
