@@ -19,7 +19,6 @@ ALL_AUTH_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
-    "allauth.socialaccount.providers.telegram",
 ]
 
 THIRD_PARTY_APPS = [
@@ -135,16 +134,6 @@ LOGIN_REDIRECT_URL = "/"
 SOCIALACCOUNT_EMAIL_AUTHENTICATION = True
 SOCIALACCOUNT_STORE_TOKENS = True
 SOCIALACCOUNT_ONLY = False
-
-SOCIALACCOUNT_PROVIDERS = {
-    'telegram': {
-        'APP': {
-            'client_id': os.getenv("TELEGRAM_BOT_ID"),
-            'secret': os.getenv("TELEGRAM_BOT_TOKEN"),
-        },
-        'AUTH_PARAMS': {'auth_date_validity': 30},
-    }
-}
 
 ###### STORAGES ######
 AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")

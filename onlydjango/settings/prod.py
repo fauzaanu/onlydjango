@@ -86,32 +86,13 @@ LOGGING = {
         "console": {
             "class": "logging.StreamHandler",
         },
-        "telegram": {
-            "level": "INFO",
-            "class": "onlydjango.helpers.telegram_logging.TelegramBotHandler",
-            "telegram_bot_token": os.environ["TELEGRAM_BOT_TOKEN"],
-            "telegram_chat_id": os.environ["TELEGRAM_CHAT_ID"],
-            "formatter": "telegram",
-            "filters": ["exclude_disallowed_host"],
-        },
-        "error_handler": {
-            "level": "ERROR",
-            "class": "onlydjango.helpers.telegram_logging.TelegramBotHandler",
-            "telegram_bot_token": os.environ["TELEGRAM_BOT_TOKEN"],
-            "telegram_chat_id": os.environ["TELEGRAM_CHAT_ID"],
-            "formatter": "telegram",
-            "filters": ["exclude_disallowed_host"],
-        },
         "mail_admins": {
             "level": "ERROR",
             "class": "django.utils.log.AdminEmailHandler",
         },
     },
-    "formatters": {
-        "telegram": {"format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"}
-    },
     "root": {
-        "handlers": ["error_handler", "console"],
+        "handlers": ["mail_admins", "console"],
         "level": "INFO",
         "propagate": True,
     },
@@ -120,12 +101,6 @@ LOGGING = {
             "handlers": ["console"],
             "level": "ERROR",
             "propagate": False,
-        },
-    },
-    "filters": {
-        "exclude_disallowed_host": {
-            "()": "django.utils.log.CallbackFilter",
-            "callback": lambda record: not record.name.startswith("django.security.DisallowedHost"),
         },
     },
 }
