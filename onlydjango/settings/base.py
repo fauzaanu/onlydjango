@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 
-from onlydjango.settings.env import env
+from onlydjango.settings import env
 PROJECT_DIR = Path(__file__).resolve().parent.parent
 BASE_DIR = PROJECT_DIR.parent
 WSGI_APPLICATION = "onlydjango.wsgi.application"

@@ -1,6 +1,6 @@
 from os import path
 from .base import *
-from .env import env
+from . import env
 from huey import PriorityRedisHuey
 
 DEBUG = True

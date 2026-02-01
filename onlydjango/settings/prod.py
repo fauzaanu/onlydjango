@@ -1,7 +1,7 @@
 from huey import PriorityRedisHuey
 
 from .base import *
-from .env import env
+from . import env
 from onlydjango.helpers.host_utils import normalize_host
 
 ## HOST SETTINGS ##
