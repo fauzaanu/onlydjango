@@ -1,6 +1,21 @@
+---
+inclusion: manual
+---
+
 # Project Setup
 
 This repository includes a `project_setup` module that automates initial configuration. Use it to get started immediately.
+
+## CRITICAL: Project Naming
+
+**"onlydjango" is the template name - NEVER use it as the actual project name.**
+
+When setting up a new project, you MUST invent an appropriate project name based on what you're building. Derive the name from:
+- The spec/feature being implemented
+- The business domain (e.g., "msh-invoices" for Maldives Software House invoices)
+- Keep it short, lowercase, with hyphens
+
+Do NOT ask the user what the project name should be - decide it yourself based on context.
 
 ## Quick Start (Non-Interactive)
 
