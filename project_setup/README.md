@@ -22,6 +22,30 @@ Or with uv:
 uv run python -m project_setup
 ```
 
+### Non-interactive usage
+
+Run without prompts and pass all options up front:
+
+```bash
+uv run python -m project_setup \
+  --non-interactive \
+  --project-name myproject \
+  --check-docker-ports \
+  --update-project-name \
+  --create-env \
+  --configure-ports \
+  --redis-port 6380 \
+  --postgres-port 5433 \
+  --configure-docker-compose \
+  --install-npm \
+  --no-start-docker-compose \
+  --no-run-migrations \
+  --no-start-dev-server
+```
+
+If you omit flags in non-interactive mode, the defaults match the
+interactive prompts (yes for setup steps, no for post-setup actions).
+
 ## Testing
 
 Test Docker port detection:
