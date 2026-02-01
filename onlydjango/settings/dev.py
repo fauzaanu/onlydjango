@@ -1,5 +1,6 @@
 from os import path
 from .base import *
+from .env import env
 from huey import PriorityRedisHuey
 
 DEBUG = True
@@ -19,9 +20,9 @@ SECRET_KEY = "1234"
 # AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
 # AWS_S3_SIGNATURE_VERSION = "s3v4"
 # AWS_S3_CUSTOM_DOMAIN = "cdn.onlydjango.com"
-os.environ.setdefault('DEV_STORAGE', 'local') # use `S3` for S3
+os.environ.setdefault('DEV_STORAGE', 'local')  # use `S3` for S3
 
-if os.environ.get("DEV_STORAGE") == "local":
+if env.DEV_STORAGE == "local":
     # No Else needed as base contains S3 settings configured
     STORAGES = {
         "default": {
@@ -58,11 +59,11 @@ STATICFILES_DIRS = [
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ["PGDATABASE"],
-        "USER": os.environ["PGUSER"],
-        "PASSWORD": os.environ["PGPASSWORD"],
-        "HOST": os.environ["PGHOST"],
-        "PORT": os.environ["PGPORT"],
+        "NAME": env.PGDATABASE,
+        "USER": env.PGUSER,
+        "PASSWORD": env.PGPASSWORD,
+        "HOST": env.PGHOST,
+        "PORT": env.PGPORT,
         "OPTIONS": {
             "pool": {
                 "min_size": 2,
@@ -75,8 +76,8 @@ DATABASES = {
 
 # Cache settings
 # https://docs.djangoproject.com/en/5.0/topics/cache/#setting-up-the-cache
-REDIS_URL = os.environ["REDIS_URL"]
-REDIS_PORT = os.environ["REDIS_PORT"]
+REDIS_URL = env.REDIS_URL
+REDIS_PORT = env.REDIS_PORT
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.dummy.DummyCache",
@@ -89,8 +90,8 @@ HUEY.flush()
 # sometimes huey refuses to start tasks
 HUEY.periodic_task_check_frequency = 1
 
-TELEGRAM_BOT_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
-TELEGRAM_CHAT_ID = os.environ["TELEGRAM_CHAT_ID"]
+TELEGRAM_BOT_TOKEN = env.TELEGRAM_BOT_TOKEN
+TELEGRAM_CHAT_ID = env.TELEGRAM_CHAT_ID
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,

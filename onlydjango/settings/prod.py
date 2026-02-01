@@ -1,15 +1,14 @@
-import os
-
 from huey import PriorityRedisHuey
 
 from .base import *
+from .env import env
 from onlydjango.helpers.host_utils import normalize_host
 
 ## HOST SETTINGS ##
 # You should define `MAIN_HOST` as example.com in the ENV
 
 DEBUG = False
-MAIN_HOST = normalize_host(os.getenv('MAIN_HOST', 'onlydjango.com'))
+MAIN_HOST = normalize_host(env.MAIN_HOST)
 HTTPS_HOST = f"https://{MAIN_HOST}"
 COOKIE_HOST = f".{MAIN_HOST}"
 
@@ -17,7 +16,7 @@ ALLOWED_HOSTS = [
     MAIN_HOST,
 ]
 
-SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
+SECRET_KEY = env.DJANGO_SECRET_KEY
 CSRF_TRUSTED_ORIGINS = [
     HTTPS_HOST,
 ]
@@ -35,16 +34,16 @@ ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ["PGDATABASE"],
-        "USER": os.environ["PGUSER"],
-        "PASSWORD": os.environ["PGPASSWORD"],
-        "HOST": os.environ["PGHOST"],
-        "PORT": os.environ["PGPORT"],
+        "NAME": env.PGDATABASE,
+        "USER": env.PGUSER,
+        "PASSWORD": env.PGPASSWORD,
+        "HOST": env.PGHOST,
+        "PORT": env.PGPORT,
         "OPTIONS": {
             "pool": {
-                'min_size': int(os.getenv('DB_POOL_MIN_SIZE', 5)),
-                'max_size': int(os.getenv('DB_POOL_MAX_SIZE', 100)),
-                'timeout': int(os.getenv('DB_POOL_TIMEOUT', 500)),
+                'min_size': env.DB_POOL_MIN_SIZE,
+                'max_size': env.DB_POOL_MAX_SIZE,
+                'timeout': env.DB_POOL_TIMEOUT,
             }
         },
     }
@@ -53,7 +52,7 @@ DATABASES = {
 # Cache settings
 # https://docs.djangoproject.com/en/5.0/topics/cache/#setting-up-the-cache
 
-REDIS_URL = os.environ["REDIS_URL"]
+REDIS_URL = env.REDIS_URL
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
@@ -65,7 +64,7 @@ CACHES = {
 }
 
 # Email to receive error logs
-ADMINS = [("Admin", os.environ["ADMIN_EMAIL"])]
+ADMINS = [("Admin", env.ADMIN_EMAIL)]
 
 # Email settings
 # https://docs.djangoproject.com/en/3.1/topics/email/
@@ -73,11 +72,14 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ["EMAIL_HOST_USER"]
-EMAIL_HOST_PASSWORD = os.environ["EMAIL_HOST_PASSWORD"]
+EMAIL_HOST_USER = env.EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = env.EMAIL_HOST_PASSWORD
 
 # setup logging - log to file and email
 # https://docs.djangoproject.com/en/5.0/topics/logging/
+
+TELEGRAM_BOT_TOKEN = env.TELEGRAM_BOT_TOKEN
+TELEGRAM_CHAT_ID = env.TELEGRAM_CHAT_ID
 
 LOGGING = {
     "version": 1,
@@ -89,16 +91,16 @@ LOGGING = {
         "telegram": {
             "level": "INFO",
             "class": "onlydjango.helpers.telegram_logging.TelegramBotHandler",
-            "telegram_bot_token": os.environ["TELEGRAM_BOT_TOKEN"],
-            "telegram_chat_id": os.environ["TELEGRAM_CHAT_ID"],
+            "telegram_bot_token": TELEGRAM_BOT_TOKEN,
+            "telegram_chat_id": TELEGRAM_CHAT_ID,
             "formatter": "telegram",
             "filters": ["exclude_disallowed_host"],
         },
         "error_handler": {
             "level": "ERROR",
             "class": "onlydjango.helpers.telegram_logging.TelegramBotHandler",
-            "telegram_bot_token": os.environ["TELEGRAM_BOT_TOKEN"],
-            "telegram_chat_id": os.environ["TELEGRAM_CHAT_ID"],
+            "telegram_bot_token": TELEGRAM_BOT_TOKEN,
+            "telegram_chat_id": TELEGRAM_CHAT_ID,
             "formatter": "telegram",
             "filters": ["exclude_disallowed_host"],
         },

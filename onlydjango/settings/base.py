@@ -1,8 +1,7 @@
 import os
 from pathlib import Path
-from dotenv import load_dotenv
 
-load_dotenv(override=True)
+from onlydjango.settings.env import env
 PROJECT_DIR = Path(__file__).resolve().parent.parent
 BASE_DIR = PROJECT_DIR.parent
 WSGI_APPLICATION = "onlydjango.wsgi.application"
@@ -139,23 +138,23 @@ SOCIALACCOUNT_ONLY = False
 SOCIALACCOUNT_PROVIDERS = {
     'telegram': {
         'APP': {
-            'client_id': os.getenv("TELEGRAM_BOT_ID"),
-            'secret': os.getenv("TELEGRAM_BOT_TOKEN"),
+            'client_id': env.TELEGRAM_BOT_ID,
+            'secret': env.TELEGRAM_BOT_TOKEN,
         },
         'AUTH_PARAMS': {'auth_date_validity': 30},
     }
 }
 
 ###### STORAGES ######
-AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
-AWS_S3_ENDPOINT_URL = os.getenv("AWS_S3_ENDPOINT_URL")
-AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
-AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = env.AWS_STORAGE_BUCKET_NAME
+AWS_S3_ENDPOINT_URL = env.AWS_S3_ENDPOINT_URL
+AWS_ACCESS_KEY_ID = env.AWS_ACCESS_KEY_ID
+AWS_SECRET_ACCESS_KEY = env.AWS_SECRET_ACCESS_KEY
 AWS_S3_SIGNATURE_VERSION = "s3v4"
 AWS_S3_FILE_OVERWRITE = False
 AWS_QUERYSTRING_AUTH = True
 AWS_QUERYSTRING_EXPIRE = 3600
-AWS_S3_CUSTOM_DOMAIN = os.getenv("AWS_S3_CUSTOM_DOMAIN")
+AWS_S3_CUSTOM_DOMAIN = env.AWS_S3_CUSTOM_DOMAIN
 
 STORAGES = {
     "default": {
@@ -164,7 +163,7 @@ STORAGES = {
     "staticfiles": {
         "BACKEND": "storages.backends.s3boto3.S3StaticStorage",
         "OPTIONS": {
-            "custom_domain": os.getenv("AWS_S3_CUSTOM_DOMAIN"),
+            "custom_domain": env.AWS_S3_CUSTOM_DOMAIN,
         },
     },
 }
@@ -178,7 +177,7 @@ STATICFILES_DIRS = [
 
 
 SITE_VERSION = "0.0.1"
-SITE_NAME = os.getenv("SITE_NAME")
+SITE_NAME = env.SITE_NAME
 SITE_AUTHOR=""
 SITE_KEYWORDS=""
 SITE_DESCRIPTION=""
