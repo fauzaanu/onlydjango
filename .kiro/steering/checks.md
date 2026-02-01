@@ -22,19 +22,11 @@ uv run python manage.py validate_templates
 # Test suite - Always use noinput
 
 uv run python manage.py test --noinput
-```
 
-## Before Committing UI Changes
+# LLM Health check, helps you in the future if everything is modularized well with less loc per file.
+uv run python llm_health_check.py
 
-**Always run the Tailwind CSS build before commits:**
-
-```bash
 npm run build:css
-git status  # Check if style.css was modified
 ```
-
-NOTE: ONLY RUN GIT OPS IF THE USER ASKS YOU TO
-
-If `onlydjango/static/css/style.css` shows as modified, include it in your commit.
 
 Run these checks selectively based on the scope of your changes. Not every change requires all checks.
