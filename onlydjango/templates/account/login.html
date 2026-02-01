@@ -1,0 +1,72 @@
+<c-layout>
+    <c-section>
+        <div class="mx-auto flex min-h-[70vh] max-w-md flex-col justify-center py-12">
+            <div class="rounded-2xl border border-zinc-800 bg-black/80 p-8 shadow-2xl shadow-black/40">
+                <div class="mb-8 text-center">
+                    <p class="text-xs font-semibold uppercase tracking-[0.3em] text-zinc-400">ONLYDJANGO</p>
+                    <h1 class="mt-4 text-3xl font-semibold text-zinc-100">Sign in</h1>
+                    <p class="mt-2 text-sm text-zinc-400">Use your email and password to continue.</p>
+                </div>
+
+                {% if form.non_field_errors or form.errors %}
+                <div class="mb-6 rounded-lg border border-red-900/40 bg-red-950/40 p-4 text-sm text-red-200">
+                    <p class="font-semibold">We could not sign you in.</p>
+                    <ul class="mt-2 list-disc space-y-1 pl-5">
+                        {% for error in form.non_field_errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                        {% for field, errors in form.errors.items %}
+                            {% if field != "__all__" %}
+                                {% for error in errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
+                <form method="post" action="{% url 'account_login' %}" class="space-y-5">
+                    {% csrf_token %}
+                    {% if redirect_field_value %}
+                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                    {% endif %}
+                    <div>
+                        <label for="id_login" class="text-sm font-medium text-zinc-200">Email</label>
+                        <input
+                            id="id_login"
+                            name="login"
+                            type="email"
+                            autocomplete="email"
+                            required
+                            class="mt-2 w-full rounded-lg border border-zinc-800 bg-zinc-950 px-4 py-3 text-zinc-100 placeholder:text-zinc-500 focus:border-zinc-500 focus:outline-none focus:ring-2 focus:ring-zinc-700"
+                        />
+                    </div>
+                    <div>
+                        <label for="id_password" class="text-sm font-medium text-zinc-200">Password</label>
+                        <input
+                            id="id_password"
+                            name="password"
+                            type="password"
+                            autocomplete="current-password"
+                            required
+                            class="mt-2 w-full rounded-lg border border-zinc-800 bg-zinc-950 px-4 py-3 text-zinc-100 placeholder:text-zinc-500 focus:border-zinc-500 focus:outline-none focus:ring-2 focus:ring-zinc-700"
+                        />
+                    </div>
+                    <button
+                        type="submit"
+                        class="w-full rounded-lg bg-zinc-100 px-4 py-3 text-sm font-semibold text-black transition hover:bg-white focus:outline-none focus:ring-2 focus:ring-zinc-400"
+                    >
+                        Sign in
+                    </button>
+                </form>
+
+                <div class="mt-6 flex items-center justify-between text-sm text-zinc-400">
+                    <a class="transition hover:text-zinc-200" href="{% url 'account_reset_password' %}">Forgot password?</a>
+                    <a class="transition hover:text-zinc-200" href="{% url 'account_signup' %}">Create account</a>
+                </div>
+            </div>
+            <p class="mt-6 text-center text-xs text-zinc-500">ONLYDJANGO • Secure email login</p>
+        </div>
+    </c-section>
+</c-layout>

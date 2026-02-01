@@ -1,0 +1,85 @@
+<c-layout>
+    <c-section>
+        <div class="mx-auto flex min-h-[70vh] max-w-md flex-col justify-center py-12">
+            <div class="rounded-2xl border border-zinc-800 bg-black/80 p-8 shadow-2xl shadow-black/40">
+                <div class="mb-8 text-center">
+                    <p class="text-xs font-semibold uppercase tracking-[0.3em] text-zinc-400">ONLYDJANGO</p>
+                    <h1 class="mt-4 text-3xl font-semibold text-zinc-100">Create your account</h1>
+                    <p class="mt-2 text-sm text-zinc-400">Start with your email and a secure password.</p>
+                </div>
+
+                {% if form.non_field_errors or form.errors %}
+                <div class="mb-6 rounded-lg border border-red-900/40 bg-red-950/40 p-4 text-sm text-red-200">
+                    <p class="font-semibold">We could not create your account.</p>
+                    <ul class="mt-2 list-disc space-y-1 pl-5">
+                        {% for error in form.non_field_errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                        {% for field, errors in form.errors.items %}
+                            {% if field != "__all__" %}
+                                {% for error in errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
+                <form method="post" action="{% url 'account_signup' %}" class="space-y-5">
+                    {% csrf_token %}
+                    {% if redirect_field_value %}
+                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                    {% endif %}
+                    <div>
+                        <label for="id_email" class="text-sm font-medium text-zinc-200">Email</label>
+                        <input
+                            id="id_email"
+                            name="email"
+                            type="email"
+                            autocomplete="email"
+                            required
+                            class="mt-2 w-full rounded-lg border border-zinc-800 bg-zinc-950 px-4 py-3 text-zinc-100 placeholder:text-zinc-500 focus:border-zinc-500 focus:outline-none focus:ring-2 focus:ring-zinc-700"
+                        />
+                    </div>
+                    <div>
+                        <label for="id_password1" class="text-sm font-medium text-zinc-200">Password</label>
+                        <input
+                            id="id_password1"
+                            name="password1"
+                            type="password"
+                            autocomplete="new-password"
+                            required
+                            class="mt-2 w-full rounded-lg border border-zinc-800 bg-zinc-950 px-4 py-3 text-zinc-100 placeholder:text-zinc-500 focus:border-zinc-500 focus:outline-none focus:ring-2 focus:ring-zinc-700"
+                        />
+                    </div>
+                    <div>
+                        <label for="id_password2" class="text-sm font-medium text-zinc-200">Confirm password</label>
+                        <input
+                            id="id_password2"
+                            name="password2"
+                            type="password"
+                            autocomplete="new-password"
+                            required
+                            class="mt-2 w-full rounded-lg border border-zinc-800 bg-zinc-950 px-4 py-3 text-zinc-100 placeholder:text-zinc-500 focus:border-zinc-500 focus:outline-none focus:ring-2 focus:ring-zinc-700"
+                        />
+                    </div>
+                    <button
+                        type="submit"
+                        class="w-full rounded-lg bg-zinc-100 px-4 py-3 text-sm font-semibold text-black transition hover:bg-white focus:outline-none focus:ring-2 focus:ring-zinc-400"
+                    >
+                        Create account
+                    </button>
+                </form>
+
+                <div class="mt-6 text-center text-sm text-zinc-400">
+                    <span>Already have an account?</span>
+                    <a class="ml-1 font-medium text-zinc-200 transition hover:text-white" href="{% url 'account_login' %}">
+                        Sign in
+                    </a>
+                </div>
+            </div>
+            <p class="mt-6 text-center text-xs text-zinc-500">ONLYDJANGO • Email-first signup</p>
+        </div>
+    </c-section>
+</c-layout>
