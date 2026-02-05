@@ -1,9 +1,0 @@
----
-description: Use Tailwind config instead of arbitrary classes
-globs: "{tailwind.config.js,**/*.css}"
-alwaysApply: false
----
-
-# Tailwind CSS Configuration
-
-Whenever you might want to create or use an arbitrary tailwind CSS Class always edit tailwind config and. Use it in an in a non arbitrary way so that it will be more manageable in the future.
