@@ -1,33 +1,66 @@
 {
-    "html.autoClosingTags": false,
-    "editor.formatOnSave": false,
-    "editor.formatOnPaste": false,
-    "editor.formatOnType": false,
-    "editor.codeActionsOnSave": {},
-    "[python]": {
-        "editor.formatOnSave": false,
-        "editor.codeActionsOnSave": {}
-    },
-    "[html]": {
-        "editor.formatOnSave": false
-    },
-    "[django-html]": {
-        "editor.formatOnSave": false
-    },
-    "workbench.editor.enablePreview": false,
-    "workbench.editor.enablePreviewFromQuickOpen": false,
-    "workbench.editor.revealIfOpen": false,
-    "editor.minimap.enabled": false,
-    "breadcrumbs.enabled": false,
-    "explorer.autoReveal": false,
-    "editor.lightbulb.enabled": "off",
-    "editor.quickSuggestions": {
-        "other": false,
-        "comments": false,
-        "strings": false
-    },
-    "editor.parameterHints.enabled": false,
-    "editor.suggest.showSnippets": false,
-    "editor.acceptSuggestionOnCommitCharacter": false,
-    "editor.acceptSuggestionOnEnter": "off"
+
+  "telemetry.telemetryLevel": "off",
+  "update.mode": "none",
+  "extensions.autoUpdate": false,
+  "extensions.autoCheckUpdates": false,
+  "git.enabled": false,
+  "git.autorefresh": false,
+  "files.autoSave": "off",
+  "explorer.enableDragAndDrop": false,
+
+  "files.watcherExclude": {
+    "**/.git/**": true,
+    "**/node_modules/**": true,
+    "**/dist/**": true,
+    "**/build/**": true,
+    "**/target/**": true,
+    "**/venv/**": true,
+    "**/.cache/**": true
+  },
+  "search.followSymlinks": false,
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/*.code-search": true
+  },
+
+  "editor.minimap.enabled": false,
+  "editor.cursorBlinking": "solid",
+  "editor.cursorSmoothCaretAnimation": "off",
+  "editor.smoothScrolling": false,
+  "editor.renderWhitespace": "none",
+  "editor.renderControlCharacters": false,
+  "editor.renderIndentGuides": false,
+  "editor.bracketPairColorization.enabled": false,
+  "editor.guides.bracketPairs": false,
+  "editor.folding": false,
+  "editor.matchBrackets": "never",
+  "editor.selectionHighlight": false,
+  "editor.occurrencesHighlight": false,
+  "editor.links": false,
+  "editor.colorDecorators": false,
+  "editor.lightbulb.enabled": false,
+  "editor.codeLens": false,
+
+  "editor.suggestOnTriggerCharacters": false,
+  "editor.quickSuggestions": {
+    "other": false,
+    "comments": false,
+    "strings": false
+  },
+  "editor.parameterHints.enabled": false,
+  "typescript.disableAutomaticTypeAcquisition": true,
+  "javascript.validate.enable": false,
+  "json.validate.enable": false,
+  "markdown.validate.enabled": false,
+
+
+  "workbench.startupEditor": "none",
+  "workbench.activityBar.location": "hidden",
+  "workbench.statusBar.visible": true,
+  "workbench.tips.enabled": false,
+  "workbench.editor.enablePreview": false,
+  "window.restoreWindows": "none",
+  "window.menuBarVisibility": "compact"
 }
