@@ -1,0 +1,16 @@
+{
+  "enabled": true,
+  "name": "Check Banned Template Tags",
+  "description": "When an HTML file is created or edited, scans it for banned Cotton template tags ({% with %}, {% block %}, {% extends %}, {% include %}) and HTML comments (<!-- -->). Instead of fixing them, appends detailed entries to todo.md with exact file paths and line numbers so they can be fixed later as a spec.",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "**/*.html"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "An HTML file was just edited. Read the file and check for these banned patterns:\n\n1. `{% with %}` or `{% endwith %}` — should use Cotton `:variable` syntax instead\n2. `{% block %}` or `{% endblock %}` — should use Cotton named slots instead\n3. `{% extends %}` — should use Cotton layout components instead\n4. `{% include %}` — should use Cotton components instead (no partials)\n5. HTML comments `<!-- -->` — should use Django comments `{# #}` instead\n\nIf ANY of these are found, append entries to `todo.md` (create it if it doesn't exist). Format each entry like:\n\n```\n## [filename] - Banned Template Patterns\n- Line [N]: `{% with %}` found — replace with Cotton `:variable` syntax\n- Line [N]: `<!-- comment text -->` found — replace with Django comment `{# #}`\n```\n\nInclude the exact line numbers and the offending code snippet for each violation. Do NOT fix the issues — only document them in todo.md. If no banned patterns are found, do nothing."
+  }
+}
