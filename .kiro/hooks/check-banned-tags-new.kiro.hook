@@ -1,5 +1,5 @@
 {
-  "enabled": true,
+  "enabled": false,
   "name": "Check Banned Tags New Files",
   "description": "When a new HTML file is created, scans it for banned Cotton template tags ({% with %}, {% block %}, {% extends %}, {% include %}) and HTML comments (<!-- -->). Appends detailed entries to todo.md with exact file paths and line numbers for later batch fixing.",
   "version": "1",
